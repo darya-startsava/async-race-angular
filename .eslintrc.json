@@ -1,0 +1,67 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*"],
+  "plugins": ["simple-import-sort", "import"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "import/prefer-default-export": "off",
+        "import/first": "warn",
+        "import/newline-after-import": "warn",
+        "import/no-duplicates": "error",
+        "import/no-extraneous-dependencies": "off",
+        "import/order": "warn",
+        "simple-import-sort/imports": "warn",
+        "simple-import-sort/exports": "warn",
+        "no-console": "off",
+        "no-trailing-spaces": "warn",
+        "no-plusplus": "off",
+        "linebreak-style": "off",
+        "operator-linebreak": "off",
+        "implicit-arrow-linebreak": "off",
+        "function-paren-newline": "off",
+        "class-methods-use-this": "off",
+        "object-curly-newline": "off",
+        "no-return-assign": "off",
+        "no-underscore-dangle": "off",
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/comma-dangle": "off",
+        "@typescript-eslint/lines-between-class-members": "off",
+        "@typescript-eslint/quotes": ["warn", "single"],
+        "@typescript-eslint/no-shadow": "error",
+        "@typescript-eslint/no-explicit-any": "error",
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"]
+    }
+  ]
+}
