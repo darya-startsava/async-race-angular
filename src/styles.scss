@@ -1,4 +1,25 @@
+@use '@angular/material' as mat;
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
+$main: mat.define-palette(mat.$indigo-palette, 50);
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+    background-color: mat.get-color-from-palette($main);
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
