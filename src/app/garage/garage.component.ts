@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { GarageService } from '../garage.service';
+import { carsListLoading } from '../redux/actions/cars.actions';
+import { selectCarsFeatureData } from '../redux/selectors/cars.selectors';
+import { CarsDataState } from '../redux/state.models';
 import { CarsListComponent } from './components/cars-list/cars-list.component';
-import { CarResponse } from './models/cars.models';
 
 @Component({
   selector: 'app-garage',
@@ -14,10 +17,15 @@ import { CarResponse } from './models/cars.models';
   styleUrl: './garage.component.scss'
 })
 export class GarageComponent implements OnInit {
-  public cars$: Observable<CarResponse[]>;
-  constructor(public garageService: GarageService) {}
+  public cars$: Observable<CarsDataState[]> = this.store.select(
+    selectCarsFeatureData
+  );
+  constructor(
+    public garageService: GarageService,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
-    this.cars$ = this.garageService.getCars();
+    this.store.dispatch(carsListLoading());
   }
 }
