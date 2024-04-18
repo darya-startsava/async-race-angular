@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map } from 'rxjs';
+import { catchError, exhaustMap, map, mergeMap, of } from 'rxjs';
 
 import { GarageService } from '../../garage.service';
 import { CarResponse } from '../../garage/models/cars.models';
-import { carsListLoading, carsListSuccess } from '../actions/cars.actions';
+import {
+  carsListFailed,
+  carsListLoading,
+  carsListSuccess,
+  deleteCar,
+  deleteCarFailed
+} from '../actions/cars.actions';
 
 @Injectable()
 export class CarsEffects {
@@ -12,9 +18,22 @@ export class CarsEffects {
     return this.actions$.pipe(
       ofType(carsListLoading),
       exhaustMap(() =>
-        this.garageService
-          .getCars()
-          .pipe(map((data: CarResponse[]) => carsListSuccess({ data })))
+        this.garageService.getCars().pipe(
+          map((data: CarResponse[]) => carsListSuccess({ data })),
+          catchError((error) => of(carsListFailed({ error })))
+        )
+      )
+    );
+  });
+
+  deleteCar$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteCar),
+      mergeMap((action) =>
+        this.garageService.deleteCar(action.id).pipe(
+          map(() => carsListLoading()),
+          catchError((error) => of(deleteCarFailed({ error })))
+        )
       )
     );
   });

@@ -16,7 +16,7 @@ export class GarageService {
     return this.http.get<CarResponse[]>(this.garageUrl);
   }
 
-  deleteCar(id: number): void {
-    this.http.delete(`${this.garageUrl}/${id}`);
+  deleteCar(id: number) {
+    return this.http.delete(`${this.garageUrl}/${id}`);
   }
 }

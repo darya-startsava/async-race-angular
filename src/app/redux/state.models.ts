@@ -5,6 +5,7 @@ export interface AppState {
 export interface CarsState {
   data: CarsDataState[];
   status: StatusState;
+  error: ErrorState | null;
 }
 
 export interface CarsDataState {
@@ -18,4 +19,9 @@ export enum StatusState {
   Loading = 'Loading',
   Success = 'Success',
   Failed = 'Failed'
+}
+
+export interface ErrorState {
+  status: number;
+  message: string;
 }

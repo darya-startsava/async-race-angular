@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { Store } from '@ngrx/store';
 
-import { GarageService } from '../../../garage.service';
+import { deleteCar } from '../../../redux/actions/cars.actions';
 import { CarResponse } from '../../models/cars.models';
 
 @Component({
@@ -12,10 +13,10 @@ import { CarResponse } from '../../models/cars.models';
   styleUrl: './car-item.component.scss'
 })
 export class CarItemComponent {
-  constructor(private garageService: GarageService) {}
+  constructor(private store: Store) {}
   @Input() car: CarResponse;
 
   onDelete(id: number): void {
-    this.garageService.deleteCar(id);
+    this.store.dispatch(deleteCar({ id }));
   }
 }
