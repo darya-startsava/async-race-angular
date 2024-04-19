@@ -3,3 +3,8 @@ export interface CarResponse {
   color: string;
   id: number;
 }
+
+export interface CarRequest {
+  name: string;
+  color: string;
+}

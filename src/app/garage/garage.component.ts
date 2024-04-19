@@ -8,11 +8,12 @@ import { carsListLoading } from '../redux/actions/cars.actions';
 import { selectCarsFeatureData } from '../redux/selectors/cars.selectors';
 import { CarsDataState } from '../redux/state.models';
 import { CarsListComponent } from './components/cars-list/cars-list.component';
+import { CreateCarComponent } from './components/create-car/create-car.component';
 
 @Component({
   selector: 'app-garage',
   standalone: true,
-  imports: [CommonModule, CarsListComponent],
+  imports: [CommonModule, CarsListComponent, CreateCarComponent],
   templateUrl: './garage.component.html',
   styleUrl: './garage.component.scss'
 })

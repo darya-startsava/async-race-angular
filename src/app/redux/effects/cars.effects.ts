@@ -8,6 +8,8 @@ import {
   carsListFailed,
   carsListLoading,
   carsListSuccess,
+  createCar,
+  createCarFailed,
   deleteCar,
   deleteCarFailed
 } from '../actions/cars.actions';
@@ -34,6 +36,20 @@ export class CarsEffects {
           map(() => carsListLoading()),
           catchError((error) => of(deleteCarFailed({ error })))
         )
+      )
+    );
+  });
+
+  createCar$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createCar),
+      mergeMap((action) =>
+        this.garageService
+          .createCar({ name: action.name, color: action.color })
+          .pipe(
+            map(() => carsListLoading()),
+            catchError((error) => of(createCarFailed({ error })))
+          )
       )
     );
   });
