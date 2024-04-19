@@ -11,7 +11,9 @@ import {
   createCar,
   createCarFailed,
   deleteCar,
-  deleteCarFailed
+  deleteCarFailed,
+  updateCar,
+  updateCarFailed
 } from '../actions/cars.actions';
 
 @Injectable()
@@ -49,6 +51,20 @@ export class CarsEffects {
           .pipe(
             map(() => carsListLoading()),
             catchError((error) => of(createCarFailed({ error })))
+          )
+      )
+    );
+  });
+
+  updateCar$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateCar),
+      mergeMap((action) =>
+        this.garageService
+          .updateCar({ name: action.name, color: action.color }, action.id)
+          .pipe(
+            map(() => carsListLoading()),
+            catchError((error) => of(updateCarFailed({ error })))
           )
       )
     );

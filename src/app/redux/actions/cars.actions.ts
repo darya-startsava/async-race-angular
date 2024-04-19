@@ -34,3 +34,13 @@ export const createCarFailed = createAction(
   '[CreateCar] Create car failed',
   props<{ error: ErrorState }>()
 );
+
+export const updateCar = createAction(
+  '[CarItem] Update car',
+  props<{ name: string; color: string, id:number }>()
+);
+
+export const updateCarFailed = createAction(
+  '[CarItem] Update car failed',
+  props<{ error: ErrorState }>()
+);

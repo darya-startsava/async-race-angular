@@ -1,6 +1,15 @@
 <div class="car-item_wrapper">
-  <p>{{ car.name }}</p>
-  <button mat-flat-button color="warn" (click)="onDelete(car.id)">
-    Delete
-  </button>
+  @if (isBeingUpdated) {
+    <p>bla</p>
+  } @else {
+    <p>{{ car.name }} {{ car.color }}</p>
+  }
+  <div class="car_buttons_wrapper">
+    <button mat-flat-button color="warn" (click)="onDelete(car.id)">
+      Delete car
+    </button>
+    <button mat-flat-button color="primary" (click)="onUpdate()">
+      Update car
+    </button>
+  </div>
 </div>

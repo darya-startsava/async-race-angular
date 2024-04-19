@@ -29,4 +29,12 @@ export class GarageService {
   createCar(carRequest: CarRequest) {
     return this.http.post(this.garageUrl, carRequest, this.httpOptions);
   }
+
+  updateCar(carRequest: CarRequest, id: number) {
+    return this.http.put(
+      `${this.garageUrl}/${id}`,
+      carRequest,
+      this.httpOptions
+    );
+  }
 }
