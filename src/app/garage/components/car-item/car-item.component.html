@@ -1,6 +1,15 @@
 <div class="car-item_wrapper">
   @if (isBeingUpdated) {
-    <p>bla</p>
+    <div class="update-form_wrapper">
+      <app-car-properties-form
+        [initialColor]="car.color"
+        [initialName]="car.name"
+        title="Update car:"
+        buttonName="Save"
+        (formSubmitted)="onSaveUpdates($event, car.id)"
+      ></app-car-properties-form>
+      <button mat-flat-button color="warn" (click)="onCancel()">Cancel</button>
+    </div>
   } @else {
     <p>{{ car.name }} {{ car.color }}</p>
   }
@@ -8,8 +17,10 @@
     <button mat-flat-button color="warn" (click)="onDelete(car.id)">
       Delete car
     </button>
-    <button mat-flat-button color="primary" (click)="onUpdate()">
-      Update car
-    </button>
+    @if (!isBeingUpdated) {
+      <button mat-flat-button color="primary" (click)="onUpdate()">
+        Update car
+      </button>
+    }
   </div>
 </div>

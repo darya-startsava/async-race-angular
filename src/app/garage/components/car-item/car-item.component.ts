@@ -3,12 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngrx/store';
 
 import { deleteCar, updateCar } from '../../../redux/actions/cars.actions';
-import { CarResponse } from '../../models/cars.models';
+import { CarRequest, CarResponse } from '../../models/cars.models';
+import { CarPropertiesFormComponent } from '../car-properties-form/car-properties-form.component';
 
 @Component({
   selector: 'app-car-item',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, CarPropertiesFormComponent],
   templateUrl: './car-item.component.html',
   styleUrl: './car-item.component.scss'
 })
@@ -25,7 +26,12 @@ export class CarItemComponent {
     this.isBeingUpdated = true;
   }
 
-  onSaveUpdates(id: number): void {
-    this.store.dispatch(updateCar({ id, name: 'car', color: '#ffffff' }));
+  onSaveUpdates($event: CarRequest, id: number): void {
+    this.store.dispatch(updateCar({ ...$event, id }));
+    this.isBeingUpdated = false;
+  }
+
+  onCancel() {
+    this.isBeingUpdated = false;
   }
 }
