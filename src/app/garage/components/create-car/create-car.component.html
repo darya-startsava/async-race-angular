@@ -1,19 +1,7 @@
-<form class="create-car_wrapper" [formGroup]="createCarForm" (ngSubmit)="onCreate()">
-  <h4>Create a new car:</h4>
-  <div class="inputs-group_wrapper">
-    <div class="input_wrapper">
-      <label for="input-color">Color:</label>
-      <input
-        id="input-color"
-        class="input-color"
-        type="color"
-        formControlName="color"
-      />
-    </div>
-    <div class="input_wrapper">
-      <label for="input-name">Name:</label>
-      <input id="input-name" class="input-name" formControlName="name" />
-    </div>
-  </div>
-  <button mat-flat-button color="primary" type="submit">Create</button>
-</form>
+<app-car-properties-form
+  [initialColor]="initialColor"
+  [initialName]="initialName"
+  title="Create a new car:"
+  buttonName="Create"
+  (formSubmitted)="onCreate($event)"
+></app-car-properties-form>

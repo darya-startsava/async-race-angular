@@ -1,39 +1,24 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngrx/store';
 
 import { createCar } from '../../../redux/actions/cars.actions';
+import { CarRequest } from '../../models/cars.models';
+import { CarPropertiesFormComponent } from '../car-properties-form/car-properties-form.component';
 
 @Component({
   selector: 'app-create-car',
   standalone: true,
-  imports: [MatButtonModule, ReactiveFormsModule],
+  imports: [CarPropertiesFormComponent],
   templateUrl: './create-car.component.html',
   styleUrl: './create-car.component.scss'
 })
 export class CreateCarComponent {
-  createCarForm = new FormGroup({
-    color: new FormControl('#29C5F6', [Validators.required]),
-    name: new FormControl('', [Validators.required])
-  });
-
   constructor(private store: Store) {}
+  public initialColor = '#29C5F6';
+  public initialName = '';
 
-  onCreate() {
-    this.store.dispatch(createCar({ name: this.name, color: this.color }));
-    this.createCarForm.reset();
-  }
-  get name(): string {
-    return this.createCarForm.value.name;
-  }
-
-  get color(): string {
-    return this.createCarForm.value.color;
+  onCreate($event: CarRequest) {
+    this.store.dispatch(createCar({ name: $event.name, color: $event.color }));
+    console.log($event.name, $event.color);
   }
 }
