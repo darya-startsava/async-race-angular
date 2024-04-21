@@ -37,10 +37,17 @@ export const createCarFailed = createAction(
 
 export const updateCar = createAction(
   '[CarItem] Update car',
-  props<{ name: string; color: string, id:number }>()
+  props<{ name: string; color: string; id: number }>()
 );
 
 export const updateCarFailed = createAction(
   '[CarItem] Update car failed',
+  props<{ error: ErrorState }>()
+);
+
+export const generateCars = createAction('[Garage] Generate cars');
+
+export const generateCarsFailed = createAction(
+  '[Garage] Generate cars failed',
   props<{ error: ErrorState }>()
 );

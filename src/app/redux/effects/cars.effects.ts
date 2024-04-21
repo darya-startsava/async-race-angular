@@ -12,6 +12,8 @@ import {
   createCarFailed,
   deleteCar,
   deleteCarFailed,
+  generateCars,
+  generateCarsFailed,
   updateCar,
   updateCarFailed
 } from '../actions/cars.actions';
@@ -66,6 +68,18 @@ export class CarsEffects {
             map(() => carsListLoading()),
             catchError((error) => of(updateCarFailed({ error })))
           )
+      )
+    );
+  });
+
+  generateCars$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(generateCars),
+      mergeMap(() =>
+        this.garageService.generateCars().pipe(
+          map(() => carsListLoading()),
+          catchError((error) => of(generateCarsFailed({ error })))
+        )
       )
     );
   });

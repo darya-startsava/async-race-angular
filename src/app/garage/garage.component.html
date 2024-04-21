@@ -1,2 +1,10 @@
 <app-create-car></app-create-car>
+<button
+  class="generate-cars_button"
+  mat-stroked-button
+  color="accent"
+  (click)="onGenerateCars()"
+>
+  Generate {{ numberOfCarsToGenerate }} random cars
+</button>
 <app-cars-list [cars]="this.cars$ | async"></app-cars-list>
