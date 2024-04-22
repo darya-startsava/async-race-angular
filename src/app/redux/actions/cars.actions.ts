@@ -3,11 +3,14 @@ import { createAction, props } from '@ngrx/store';
 import { CarResponse } from '../../garage/models/cars.models';
 import { ErrorState } from '../state.models';
 
-export const carsListLoading = createAction('[Garage] Cars list loading');
+export const carsListLoading = createAction(
+  '[Garage] Cars list loading',
+  props<{ page: string }>()
+);
 
 export const carsListSuccess = createAction(
   '[Garage] Cars list  success',
-  props<{ data: CarResponse[] }>()
+  props<{ data: CarResponse[]; carCount: string }>()
 );
 
 export const carsListFailed = createAction(

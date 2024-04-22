@@ -8,3 +8,8 @@ export const selectCarsFeatureData = createSelector(
   selectCarsFeature,
   (state: CarsState) => state.data
 );
+
+export const selectCarsFeatureCount = createSelector(
+  selectCarsFeature,
+  (state: CarsState) => state.carCount
+);

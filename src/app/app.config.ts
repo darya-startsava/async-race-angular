@@ -7,7 +7,9 @@ import { provideState, provideStore } from '@ngrx/store';
 
 import { routes } from './app.routes';
 import { CarsEffects } from './redux/effects/cars.effects';
+import { PaginationEffects } from './redux/effects/pagination.effects';
 import { CarsReducer } from './redux/reducers/cars.reducer';
+import { PaginationReducer } from './redux/reducers/pagination.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     provideStore(),
     provideState({ name: 'cars', reducer: CarsReducer }),
-    provideEffects(CarsEffects)
+    provideState({ name: 'pagination', reducer: PaginationReducer }),
+    provideEffects(CarsEffects, PaginationEffects)
   ]
 };

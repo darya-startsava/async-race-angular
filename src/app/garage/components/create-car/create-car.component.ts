@@ -19,6 +19,5 @@ export class CreateCarComponent {
 
   onCreate($event: CarRequest) {
     this.store.dispatch(createCar({ name: $event.name, color: $event.color }));
-    console.log($event.name, $event.color);
   }
 }

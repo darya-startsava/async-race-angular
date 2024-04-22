@@ -1,8 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 
-import { NUMBER_OF_CARS_TO_GENERATE, URL } from './constants';
+import {
+  CARS_PER_PAGE_GARAGE,
+  NUMBER_OF_CARS_TO_GENERATE,
+  URL
+} from './constants';
 import { CarRequest, CarResponse } from './garage/models/cars.models';
 import { generateRandomCar } from './utils/generate-random-car';
 
@@ -19,8 +23,13 @@ export class GarageService {
 
   constructor(private http: HttpClient) {}
 
-  getCars(): Observable<CarResponse[]> {
-    return this.http.get<CarResponse[]>(this.garageUrl);
+  getCars(page: string): Observable<HttpResponse<CarResponse[]>> {
+    return this.http.get<CarResponse[]>(
+      `${this.garageUrl}?_page=${page}&_limit=${CARS_PER_PAGE_GARAGE}`,
+      {
+        observe: 'response'
+      }
+    );
   }
 
   deleteCar(id: number) {

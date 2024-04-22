@@ -11,6 +11,7 @@ import { CarsState, StatusState } from '../state.models';
 
 const initialState: CarsState = {
   data: [],
+  carCount: 0,
   error: null,
   status: StatusState.Init
 };
@@ -27,8 +28,9 @@ export const CarsReducer = createReducer<CarsState>(
   ),
   on(
     carsListSuccess,
-    (state, { data }): CarsState => ({
+    (state, { data, carCount }): CarsState => ({
       data,
+      carCount: +carCount,
       error: null,
       status: StatusState.Success
     })

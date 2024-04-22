@@ -1,4 +1,11 @@
 <nav class="nav_buttons_wrapper">
-  <a mat-stroked-button color="primary" routerLink="/garage">Garage page</a>
-  <a mat-stroked-button color="primary" routerLink="/winners">Winners page</a>
+  <a
+    mat-stroked-button
+    color="primary"
+    [routerLink]="['/garage', currentGaragePage$ | async]"
+    >Go to the garage</a
+  >
+  <a mat-stroked-button color="primary" routerLink="/winners"
+    >Go to the winners</a
+  >
 </nav>

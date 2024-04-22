@@ -1,0 +1,21 @@
+<p>Total number of cars in the garage: {{ carCount$ | async }}</p>
+<p>Total number of pages: {{ pageCount$ | async }}</p>
+<div class="pagination_buttons_wrapper">
+  <button
+    mat-button
+    color="accent"
+    [disabled]="(currentPage$ | async) === 1"
+    [routerLink]="['/garage', (currentPage$ | async) - 1]"
+  >
+    Previous page
+  </button>
+  <span> {{ currentPage$ | async }} </span>
+  <a
+    mat-button
+    color="accent"
+    [disabled]="(currentPage$ | async) === (pageCount$ | async)"
+    [routerLink]="['/garage', (currentPage$ | async) + 1]"
+  >
+    Next page
+  </a>
+</div>
