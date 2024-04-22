@@ -1,3 +1,7 @@
-@for (car of cars; track car.id) {
-  <app-car-item class="search-results_item" [car]="car"></app-car-item>
+@for (car of cars; track car.id; let index = $index) {
+  <app-car-item
+    class="search-results_item"
+    [car]="car"
+    [index]="index"
+  ></app-car-item>
 }

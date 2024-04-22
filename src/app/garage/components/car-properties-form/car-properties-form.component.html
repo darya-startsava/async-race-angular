@@ -5,19 +5,8 @@
 >
   <h4>{{ title }}</h4>
   <div class="inputs-group_wrapper">
-    <div class="input_wrapper">
-      <label for="input-color">Color:</label>
-      <input
-        id="input-color"
-        class="input-color"
-        type="color"
-        formControlName="color"
-      />
-    </div>
-    <div class="input_wrapper">
-      <label for="input-name">Name:</label>
-      <input id="input-name" class="input-name" formControlName="name" />
-    </div>
+    <input class="input-color" type="color" formControlName="color" />
+    <input class="input-name" formControlName="name" />
   </div>
   <button mat-flat-button color="primary" type="submit">
     {{ buttonName }}

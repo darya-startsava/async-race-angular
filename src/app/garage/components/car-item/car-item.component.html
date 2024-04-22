@@ -1,26 +1,29 @@
-<div class="car-item_wrapper">
-  @if (isBeingUpdated) {
-    <div class="update-form_wrapper">
-      <app-car-properties-form
-        [initialColor]="car.color"
-        [initialName]="car.name"
-        title="Update car:"
-        buttonName="Save"
-        (formSubmitted)="onSaveUpdates($event, car.id)"
-      ></app-car-properties-form>
-      <button mat-flat-button color="warn" (click)="onCancel()">Cancel</button>
-    </div>
-  } @else {
-    <p>{{ car.name }} {{ car.color }}</p>
-  }
+<div class="car-item_wrapper" [class.colored]="!(index % 2)">
   <div class="car_buttons_wrapper">
     <button mat-flat-button color="warn" (click)="onDelete(car.id)">
-      Delete car
+      Delete
     </button>
     @if (!isBeingUpdated) {
       <button mat-flat-button color="primary" (click)="onUpdate()">
-        Update car
+        Update
       </button>
+    } @else {
+      <div class="update-form_wrapper">
+        <app-car-properties-form
+          [initialColor]="car.color"
+          [initialName]="car.name"
+          title=""
+          buttonName="Save"
+          (formSubmitted)="onSaveUpdates($event, car.id)"
+        ></app-car-properties-form>
+        <button mat-flat-button color="warn" (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
     }
+  </div>
+    <h3 [class.hidden]="isBeingUpdated">{{ car.name }}</h3>
+  <div class="car_wrapper">
+    <app-car-image [color]="car.color"></app-car-image>
   </div>
 </div>

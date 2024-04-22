@@ -1,10 +1,37 @@
-.update-form_wrapper {
-    display: flex;
-    column-gap: 20px;
-    align-items: end;
-}
+@use '@angular/material' as mat;
 
-.car_buttons_wrapper {
-    display: flex;
-    column-gap: 20px;
+$carItem: mat.define-palette(mat.$indigo-palette, 100);
+
+.car-item_wrapper {
+    padding-top: 10px;
+
+
+
+    &.colored {
+        background-color: mat.get-color-from-palette($carItem);
+    }
+
+    .car_buttons_wrapper {
+        display: flex;
+        column-gap: 20px;
+        z-index: 2;
+        position: relative;
+
+        .update-form_wrapper {
+            display: flex;
+            column-gap: 20px;
+            align-items: end;
+
+        }
+    }
+
+    .hidden {
+        visibility: hidden;
+    }
+
+    .car_wrapper {
+        position: relative;
+        border-bottom: 5px dashed #da6a00;
+        padding-bottom: 10px;
+    }
 }
