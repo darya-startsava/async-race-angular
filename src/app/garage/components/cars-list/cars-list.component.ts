@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-import { CarResponse } from '../../models/cars.models';
 import { CarItemComponent } from '../car-item/car-item.component';
+import { CarsDataState } from '../../../redux/state.models';
 
 @Component({
   selector: 'app-cars-list',
@@ -12,5 +12,5 @@ import { CarItemComponent } from '../car-item/car-item.component';
   styleUrl: './cars-list.component.scss'
 })
 export class CarsListComponent {
-  @Input() cars: CarResponse[];
+  @Input() cars: CarsDataState[];
 }

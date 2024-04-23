@@ -22,7 +22,28 @@
       </div>
     }
   </div>
-    <h3 [class.hidden]="isBeingUpdated">{{ car.name }}</h3>
+  <h3 [class.hidden]="isBeingUpdated">{{ car.name }}</h3>
+  <div class="engine_button_wrappers">
+    <button
+      mat-icon-button
+      color="primary"
+      aria-label="Start engine"
+      [disabled]="car.engineStatus !== engineStatus.Init"
+      (click)="onStartEngine()"
+    >
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      color="warn"
+      aria-label="Stop engine"
+      [disabled]="car.engineStatus === engineStatus.Init"
+      (click)="onStopEngine()"
+    >
+      <mat-icon>stop</mat-icon>
+    </button>
+  </div>
+  <img class="flag" src="assets/racing-flag.svg" />
   <div class="car_wrapper">
     <app-car-image [color]="car.color"></app-car-image>
   </div>

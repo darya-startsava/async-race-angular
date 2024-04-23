@@ -1,5 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  isDevMode
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
@@ -10,6 +14,8 @@ import { CarsEffects } from './redux/effects/cars.effects';
 import { PaginationEffects } from './redux/effects/pagination.effects';
 import { CarsReducer } from './redux/reducers/cars.reducer';
 import { PaginationReducer } from './redux/reducers/pagination.reducer';
+import { EngineEffects } from './redux/effects/engine.effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState({ name: 'cars', reducer: CarsReducer }),
     provideState({ name: 'pagination', reducer: PaginationReducer }),
-    provideEffects(CarsEffects, PaginationEffects)
+    provideEffects(CarsEffects, PaginationEffects, EngineEffects),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
   ]
 };

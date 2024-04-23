@@ -14,6 +14,16 @@ export interface CarsDataState {
   name: string;
   color: string;
   id: number;
+  engineStatus: EngineStatus;
+  velocity: number;
+  distance: number;
+}
+
+export enum EngineStatus {
+  Init = 'Init',
+  Drive = 'Drive',
+  Failed = 'Failed',
+  Success = 'Success'
 }
 
 export interface PaginationState {

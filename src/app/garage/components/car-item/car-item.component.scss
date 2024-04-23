@@ -4,8 +4,7 @@ $carItem: mat.define-palette(mat.$indigo-palette, 100);
 
 .car-item_wrapper {
     padding-top: 10px;
-
-
+    position: relative;
 
     &.colored {
         background-color: mat.get-color-from-palette($carItem);
@@ -13,9 +12,10 @@ $carItem: mat.define-palette(mat.$indigo-palette, 100);
 
     .car_buttons_wrapper {
         display: flex;
-        column-gap: 20px;
+        column-gap: 10px;
         z-index: 2;
         position: relative;
+        padding-left: 10px;
 
         .update-form_wrapper {
             display: flex;
@@ -25,13 +25,24 @@ $carItem: mat.define-palette(mat.$indigo-palette, 100);
         }
     }
 
+    h3 {
+        padding-left: 10px;
+    }
+
     .hidden {
         visibility: hidden;
+    }
+
+    .flag {
+        position: absolute;
+        bottom: -12px;
+        right: 75px;
+        height: 75px;
+        width: 100px;
     }
 
     .car_wrapper {
         position: relative;
         border-bottom: 5px dashed #da6a00;
-        padding-bottom: 10px;
     }
 }
