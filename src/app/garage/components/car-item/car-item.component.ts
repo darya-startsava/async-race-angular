@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
@@ -12,6 +18,12 @@ import {
   stopEngineLoading
 } from '../../../redux/actions/engine.actions';
 import { CarsDataState, EngineStatus } from '../../../redux/state.models';
+import {
+  INDENT_LEFT,
+  INDENT_LEFT_NUMBER,
+  INDENT_RIGHT,
+  INDENT_RIGHT_NUMBER
+} from '../../../constants';
 
 @Component({
   selector: 'app-car-item',
@@ -27,10 +39,37 @@ import { CarsDataState, EngineStatus } from '../../../redux/state.models';
 })
 export class CarItemComponent {
   public isBeingUpdated = false;
-  public engineStatus = EngineStatus;
-  constructor(private store: Store) {}
+  public engineStatusEnum = EngineStatus;
+  public carImage: HTMLElement;
+  constructor(
+    private store: Store,
+    private el: ElementRef
+  ) {}
   @Input() car: CarsDataState;
   @Input() index: number;
+  @Input() engineStatus: EngineStatus;
+
+  @ViewChild('carRace') carRace: ElementRef;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['engineStatus']) {
+      const currentEngineStatus = changes['engineStatus'].currentValue;
+      const previousEngineStatus = changes['engineStatus'].previousValue;
+      if (currentEngineStatus === EngineStatus.Drive) {
+        const time =
+          Math.round(this.car.distance / this.car.velocity / 10) / 100;
+        requestAnimationFrame(() => this.animation(time));
+      }
+      if (previousEngineStatus && currentEngineStatus === EngineStatus.Init) {
+        this.carImage.style.left = INDENT_LEFT;
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    const hostElem = this.el.nativeElement;
+    this.carImage = hostElem.querySelector('app-car-image');
+  }
 
   onDelete(id: number): void {
     this.store.dispatch(deleteCar({ id }));
@@ -52,7 +91,30 @@ export class CarItemComponent {
   onStartEngine() {
     this.store.dispatch(startEngineLoading({ id: this.car.id }));
   }
+
   onStopEngine() {
     this.store.dispatch(stopEngineLoading({ id: this.car.id }));
+  }
+
+  animation(time: number) {
+    const width = this.carRace.nativeElement.offsetWidth;
+    const path = width - INDENT_LEFT_NUMBER - INDENT_RIGHT_NUMBER;
+    const endTime = Date.now() + time * 1000;
+    this.carImage.style.left = INDENT_LEFT;
+    const refreshIntervalId = setInterval(() => {
+      const count = path * (1 - (endTime - Date.now()) / time / 1000);
+      this.carImage.style.left = ` ${INDENT_LEFT_NUMBER + count}px`;
+      if (Date.now() >= endTime) {
+        this.carImage.style.left = `calc(100% - ${INDENT_RIGHT})`;
+        clearInterval(refreshIntervalId);
+      }
+      if (this.engineStatus === EngineStatus.Failed) {
+        clearInterval(refreshIntervalId);
+      }
+      if (this.engineStatus === EngineStatus.Init) {
+        this.carImage.style.left = INDENT_LEFT;
+        clearInterval(refreshIntervalId);
+      }
+    });
   }
 }

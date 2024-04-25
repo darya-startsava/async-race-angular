@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 
-import { DEFAULT_COLOR } from '../../../constants';
+import { DEFAULT_NEW_CAR_COLOR } from '../../../constants';
 
 @Component({
   selector: 'app-car-properties-form',
@@ -23,7 +23,7 @@ export class CarPropertiesFormComponent implements OnInit {
   @Input() buttonName: string;
   @Output() formSubmitted = new EventEmitter<{ name: string; color: string }>();
   carPropertiesForm = new FormGroup({
-    color: new FormControl(DEFAULT_COLOR, [Validators.required]),
+    color: new FormControl(DEFAULT_NEW_CAR_COLOR, [Validators.required]),
     name: new FormControl('', [Validators.required])
   });
 
@@ -38,7 +38,7 @@ export class CarPropertiesFormComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted.emit({ name: this.name, color: this.color });
-    this.carPropertiesForm.reset({ color: DEFAULT_COLOR, name: '' });
+    this.carPropertiesForm.reset({ color: DEFAULT_NEW_CAR_COLOR, name: '' });
   }
 
   get name(): string {
