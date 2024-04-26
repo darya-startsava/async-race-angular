@@ -8,6 +8,8 @@ export interface CarsState {
   carCount: number;
   status: StatusState;
   error: ErrorState | null;
+  isRace: boolean;
+  winnerId: number | null;
 }
 
 export interface CarsDataState {
@@ -17,6 +19,12 @@ export interface CarsDataState {
   engineStatus: EngineStatus;
   velocity: number;
   distance: number;
+}
+
+export interface RaceParticipant {
+  id: number;
+  time: number;
+  isSuccess: boolean | null;
 }
 
 export enum EngineStatus {

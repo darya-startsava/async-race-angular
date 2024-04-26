@@ -4,7 +4,9 @@ $input: mat.define-palette(mat.$grey-palette, 300);
 
 .car-properties_wrapper {
     display: flex;
+    flex-wrap: wrap;
     column-gap: 10px;
+    row-gap: 5px;
     align-items: end;
 
     .inputs-group_wrapper {

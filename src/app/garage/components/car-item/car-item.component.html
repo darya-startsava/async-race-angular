@@ -1,10 +1,20 @@
 <div #carRace class="car-item_wrapper" [class.colored]="!(index % 2)">
   <div class="car_buttons_wrapper">
-    <button mat-flat-button color="warn" (click)="onDelete(car.id)">
+    <button
+      mat-flat-button
+      color="warn"
+      [disabled]="isRace"
+      (click)="onDelete(car.id)"
+    >
       Delete
     </button>
     @if (!isBeingUpdated) {
-      <button mat-flat-button color="primary" (click)="onUpdate()">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="isRace"
+        (click)="onUpdate()"
+      >
         Update
       </button>
     } @else {
@@ -37,7 +47,7 @@
       mat-icon-button
       color="warn"
       aria-label="Stop engine"
-      [disabled]="car.engineStatus === engineStatusEnum.Init"
+      [disabled]="car.engineStatus === engineStatusEnum.Init || isRace"
       (click)="onStopEngine()"
     >
       <mat-icon>stop</mat-icon>

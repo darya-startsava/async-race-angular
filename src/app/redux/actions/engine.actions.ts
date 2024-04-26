@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { ErrorState } from '../state.models';
+
 import { EngineResponse } from '../../garage/models/cars.models';
+import { ErrorState } from '../state.models';
 
 export const startEngineLoading = createAction(
   '[CarItem] Start engine loading',

@@ -19,7 +19,9 @@ $carItem: mat.define-palette(mat.$indigo-palette, 100);
 
         .update-form_wrapper {
             display: flex;
-            column-gap: 20px;
+            flex-wrap: wrap;
+            column-gap: 10px;
+            row-gap: 5px;
             align-items: end;
 
         }

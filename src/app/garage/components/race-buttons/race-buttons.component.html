@@ -1,0 +1,18 @@
+<div class="race_buttons_wrapper">
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="isRace$ | async"
+    (click)="onStartRace()"
+  >
+    Start race
+  </button>
+  <button
+    mat-flat-button
+    color="warn"
+    [disabled]="(isRace$ | async) === false"
+    (click)="onResetRace()"
+  >
+    Reset race
+  </button>
+</div>

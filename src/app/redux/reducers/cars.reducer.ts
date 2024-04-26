@@ -7,19 +7,26 @@ import {
   deleteCar,
   deleteCarFailed
 } from '../actions/cars.actions';
-import { CarsState, EngineStatus, StatusState } from '../state.models';
 import {
   driveEngineFailed,
   driveEngineLoading,
   driveEngineSuccess,
   stopEngineSuccess
 } from '../actions/engine.actions';
+import {
+  checkRaceIsFinished,
+  resetRace,
+  startRace
+} from '../actions/race.actions';
+import { CarsState, EngineStatus, StatusState } from '../state.models';
 
 const initialState: CarsState = {
   data: [],
   carCount: 0,
   error: null,
-  status: StatusState.Init
+  status: StatusState.Init,
+  isRace: false,
+  winnerId: null
 };
 
 const initialCarPartialState = {
@@ -35,13 +42,16 @@ export const CarsReducer = createReducer<CarsState>(
     (state): CarsState => ({
       ...state,
       error: null,
-      status: StatusState.Loading
+      status: StatusState.Loading,
+      isRace: false,
+      winnerId: null
     })
   ),
 
   on(
     carsListSuccess,
     (state, { data, carCount }): CarsState => ({
+      ...state,
       data: data.map((i) => ({ ...i, ...initialCarPartialState })),
       carCount: +carCount,
       error: null,
@@ -122,11 +132,33 @@ export const CarsReducer = createReducer<CarsState>(
       ...{
         data: state.data.map((i) => {
           if (i.id === id) {
-            return { ...i, engineStatus: EngineStatus.Init };
+            return { ...i, ...initialCarPartialState };
           }
           return i;
         })
       }
     })
-  )
+  ),
+
+  on(startRace, (state): CarsState => ({ ...state, isRace: true })),
+
+  on(
+    resetRace,
+    (state): CarsState => ({ ...state, isRace: false, winnerId: null })
+  ),
+  on(checkRaceIsFinished, (state): CarsState => {
+    if (
+      state.data.every(
+        (i) =>
+          i.engineStatus === EngineStatus.Failed ||
+          i.engineStatus === EngineStatus.Success
+      )
+    ) {
+      const [winner] = state.data
+        .filter((i) => i.engineStatus === EngineStatus.Success)
+        .sort((a, b) => b.velocity - a.velocity);
+      return { ...state, winnerId: winner.id };
+    }
+    return state;
+  })
 );

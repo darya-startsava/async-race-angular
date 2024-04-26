@@ -42,6 +42,18 @@
         "@typescript-eslint/quotes": ["warn", "single"],
         "@typescript-eslint/no-shadow": "error",
         "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "args": "all",
+            "argsIgnorePattern": "^_",
+            "caughtErrors": "all",
+            "caughtErrorsIgnorePattern": "^_",
+            "destructuredArrayIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "ignoreRestSiblings": true
+          }
+        ],
         "@angular-eslint/directive-selector": [
           "error",
           {

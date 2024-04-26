@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
+import { Store } from '@ngrx/store';
+import { catchError, map, mergeMap, of } from 'rxjs';
+
+import { EngineService } from '../../engine.service';
+import {
+  EngineResponse,
+  EngineStatusRequest
+} from '../../garage/models/cars.models';
 import {
   driveEngineFailed,
   driveEngineLoading,
@@ -10,12 +19,8 @@ import {
   stopEngineLoading,
   stopEngineSuccess
 } from '../actions/engine.actions';
-import { EngineService } from '../../engine.service';
-import { catchError, map, mergeMap, of } from 'rxjs';
-import {
-  EngineResponse,
-  EngineStatusRequest
-} from '../../garage/models/cars.models';
+import { checkRaceIsFinished, resetRace } from '../actions/race.actions';
+import { selectCarsFeatureData, selectCarsFeatureIsRace } from '../selectors/cars.selectors';
 
 @Injectable()
 export class EngineEffects {
@@ -47,6 +52,19 @@ export class EngineEffects {
     );
   });
 
+  driveEngineSuccessOrFailed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(driveEngineSuccess, driveEngineFailed),
+      concatLatestFrom(() => this.store.select(selectCarsFeatureIsRace)),
+      map(([isRace]) => {
+        if (isRace) {
+          return checkRaceIsFinished();
+        }
+        return { type: 'NO_ACTION' };
+      })
+    );
+  });
+
   stopEngineLoading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(stopEngineLoading),
@@ -61,8 +79,22 @@ export class EngineEffects {
     );
   });
 
+  resetRace$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(resetRace),
+      concatLatestFrom(() => this.store.select(selectCarsFeatureData)),
+      mergeMap(([_, data]) => {
+        const stopActions = data.map((car) =>
+          stopEngineLoading({ id: car.id })
+        );
+        return stopActions;
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
-    private engineService: EngineService
+    private engineService: EngineService,
+    private store: Store
   ) {}
 }

@@ -8,14 +8,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 import { CarsEffects } from './redux/effects/cars.effects';
+import { EngineEffects } from './redux/effects/engine.effects';
 import { PaginationEffects } from './redux/effects/pagination.effects';
 import { CarsReducer } from './redux/reducers/cars.reducer';
 import { PaginationReducer } from './redux/reducers/pagination.reducer';
-import { EngineEffects } from './redux/effects/engine.effects';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [

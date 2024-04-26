@@ -1,4 +1,5 @@
 <app-garage-pagination></app-garage-pagination>
+<app-race-buttons></app-race-buttons>
 <app-create-car></app-create-car>
 <button
   class="generate-cars_button"
@@ -8,4 +9,6 @@
 >
   Generate {{ numberOfCarsToGenerate }} random cars
 </button>
-<app-cars-list [cars]="this.cars$ | async"></app-cars-list>
+<div>Winner time: {{ winnerTime$ | async }}</div>
+<div>Winner name: {{ winnerName$ | async }}</div>
+<app-cars-list [cars]="cars$ | async"></app-cars-list>

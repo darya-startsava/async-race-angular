@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import { CarItemComponent } from '../car-item/car-item.component';
+import { selectCarsFeatureIsRace } from '../../../redux/selectors/cars.selectors';
 import { CarsDataState } from '../../../redux/state.models';
+import { CarItemComponent } from '../car-item/car-item.component';
 
 @Component({
   selector: 'app-cars-list',
@@ -13,4 +16,9 @@ import { CarsDataState } from '../../../redux/state.models';
 })
 export class CarsListComponent {
   @Input() cars: CarsDataState[];
+  public isRace$: Observable<boolean> = this.store.select(
+    selectCarsFeatureIsRace
+  );
+
+  constructor(private store: Store) {}
 }
