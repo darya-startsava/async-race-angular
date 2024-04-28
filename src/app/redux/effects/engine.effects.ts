@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
 import { EngineService } from '../../engine.service';
 import {
@@ -20,7 +20,10 @@ import {
   stopEngineSuccess
 } from '../actions/engine.actions';
 import { checkRaceIsFinished, resetRace } from '../actions/race.actions';
-import { selectCarsFeatureData, selectCarsFeatureIsRace } from '../selectors/cars.selectors';
+import {
+  selectCarsFeatureData,
+  selectCarsFeatureIsRace,
+} from '../selectors/cars.selectors';
 
 @Injectable()
 export class EngineEffects {
@@ -52,16 +55,12 @@ export class EngineEffects {
     );
   });
 
-  driveEngineSuccessOrFailed$ = createEffect(() => {
+  driveEngineCompleted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(driveEngineSuccess, driveEngineFailed),
       concatLatestFrom(() => this.store.select(selectCarsFeatureIsRace)),
-      map(([isRace]) => {
-        if (isRace) {
-          return checkRaceIsFinished();
-        }
-        return { type: 'NO_ACTION' };
-      })
+      filter(([_, isRace]) => isRace),
+      map(() => checkRaceIsFinished())
     );
   });
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-import { WinnersService } from '../winners.service';
+import { winnersListLoading } from '../redux/actions/winners.actions';
 
 @Component({
   selector: 'app-winners',
@@ -10,15 +11,13 @@ import { WinnersService } from '../winners.service';
   styleUrl: './winners.component.scss'
 })
 export class WinnersComponent implements OnInit {
-  constructor(private winnersService: WinnersService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.showWinners();
   }
 
   showWinners() {
-    this.winnersService
-      .getWinners()
-      .subscribe((winners) => console.log(winners));
+    this.store.dispatch(winnersListLoading({ page: 1 }));
   }
 }

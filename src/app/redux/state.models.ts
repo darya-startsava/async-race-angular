@@ -1,6 +1,7 @@
 export interface AppState {
   cars: CarsState;
   pagination: PaginationState;
+  winners: WinnersState;
 }
 
 export interface CarsState {
@@ -19,6 +20,19 @@ export interface CarsDataState {
   engineStatus: EngineStatus;
   velocity: number;
   distance: number;
+}
+
+export interface WinnersState {
+  data: WinnersDataState[];
+  winnersCount: number;
+  status: StatusState;
+  error: ErrorState | null;
+}
+
+export interface WinnersDataState {
+  id: number;
+  wins: number;
+  time: number;
 }
 
 export interface RaceParticipant {
@@ -48,5 +62,5 @@ export enum StatusState {
 
 export interface ErrorState {
   status: number;
-  message: string;
+  statusText: string;
 }

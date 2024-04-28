@@ -9,7 +9,7 @@ export const carsListLoading = createAction(
 );
 
 export const carsListSuccess = createAction(
-  '[Garage] Cars list  success',
+  '[Garage] Cars list success',
   props<{ data: CarResponse[]; carCount: string }>()
 );
 

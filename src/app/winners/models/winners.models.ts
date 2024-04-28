@@ -1,4 +1,4 @@
-export interface WinnersResponse {
+export interface Winner {
   id: number;
   wins: number;
   time: number;
