@@ -12,6 +12,8 @@ import {
   createWinnerFailed,
   createWinnerLoading,
   createWinnerSuccess,
+  deleteWinner,
+  deleteWinnerFailed,
   getWinnerFailed,
   getWinnerLoading,
   updateWinnerFailed,
@@ -25,6 +27,8 @@ import {
   selectCarsFeatureWinnerId,
   selectCarsFeatureWinnerTime
 } from '../selectors/cars.selectors';
+import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
+import { carsListLoading } from '../actions/cars.actions';
 
 @Injectable()
 export class WinnersEffects {
@@ -125,6 +129,26 @@ export class WinnersEffects {
               )
             )
           )
+      )
+    );
+  });
+
+  deleteWinner$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteWinner),
+      concatLatestFrom(() =>
+        this.store.select(selectPaginationFeatureGarageCurrentPage)
+      ),
+      mergeMap(([action, page]) =>
+        this.winnersService.deleteWinner(action.id).pipe(
+          map(() => carsListLoading({ page: page.toString() })),
+          catchError((error) =>
+            of(error).pipe(
+              filter(() => error.status !== 404),
+              map(() => deleteWinnerFailed({ error }))
+            )
+          )
+        )
       )
     );
   });

@@ -57,3 +57,13 @@ export const createWinnerFailed = createAction(
   '[Garage] Create winner failed',
   props<{ error: ErrorState }>()
 );
+
+export const deleteWinner = createAction(
+  '[Garage] delete winner',
+  props<{ id: number }>()
+);
+
+export const deleteWinnerFailed = createAction(
+  '[Garage] delete winner failed',
+  props<{ error: ErrorState }>()
+);

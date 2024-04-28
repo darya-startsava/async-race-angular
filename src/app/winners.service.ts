@@ -45,4 +45,8 @@ export class WinnersService {
       this.httpOptions
     );
   }
+
+  deleteWinner(id: number) {
+    return this.http.delete(`${this.winnersUrl}/${id}`);
+  }
 }

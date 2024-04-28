@@ -21,6 +21,7 @@ import {
   updateCarFailed
 } from '../actions/cars.actions';
 import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
+import { deleteWinner } from '../actions/winners.actions';
 
 @Injectable()
 export class CarsEffects {
@@ -43,12 +44,9 @@ export class CarsEffects {
   deleteCar$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deleteCar),
-      concatLatestFrom(() =>
-        this.store.select(selectPaginationFeatureGarageCurrentPage)
-      ),
-      mergeMap(([action, page]) =>
+      mergeMap((action) =>
         this.garageService.deleteCar(action.id).pipe(
-          map(() => carsListLoading({ page: page.toString() })),
+          map(() => deleteWinner({ id: action.id })),
           catchError((error) => of(deleteCarFailed({ error })))
         )
       )
