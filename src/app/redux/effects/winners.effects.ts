@@ -3,10 +3,13 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
-import { catchError, filter, map, mergeMap, of } from 'rxjs';
+import { catchError, filter, forkJoin, map, mergeMap, of } from 'rxjs';
 
+import { GarageService } from '../../garage.service';
+import { CarResponse } from '../../garage/models/cars.models';
 import { WinnersService } from '../../winners.service';
 import { Winner } from '../../winners/models/winners.models';
+import { carsListLoading } from '../actions/cars.actions';
 import { checkRaceIsFinished } from '../actions/race.actions';
 import {
   createWinnerFailed,
@@ -28,7 +31,6 @@ import {
   selectCarsFeatureWinnerTime
 } from '../selectors/cars.selectors';
 import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
-import { carsListLoading } from '../actions/cars.actions';
 
 @Injectable()
 export class WinnersEffects {
@@ -36,13 +38,30 @@ export class WinnersEffects {
     return this.actions$.pipe(
       ofType(winnersListLoading),
       mergeMap((action) => {
-        return this.winnersService.getWinners(action.page).pipe(
-          map((response: HttpResponse<Winner[]>) => {
-            const winnersCount = response.headers.get('X-Total-Count');
-            const data: Winner[] = response.body;
-            console.log('data:', data, 'winnersCount:', winnersCount);
-            return winnersListSuccess({ data, winnersCount });
-          }),
+        return forkJoin({
+          winnersRequest$: this.winnersService.getWinners(action.page),
+          allCarsRequest$: this.garageService.getAllCars()
+        }).pipe(
+          map(
+            (response: {
+              winnersRequest$: HttpResponse<Winner[]>;
+              allCarsRequest$: CarResponse[];
+            }) => {
+              const winnersCount =
+                response.winnersRequest$.headers.get('X-Total-Count');
+              const data: Winner[] = response.winnersRequest$.body;
+              const allCarsData = response.allCarsRequest$;
+              console.log(
+                'data:',
+                data,
+                'winnersCount:',
+                winnersCount,
+                'allCarsData',
+                allCarsData
+              );
+              return winnersListSuccess({ data, winnersCount, allCarsData });
+            }
+          ),
           catchError((error) => of(winnersListFailed({ error })))
         );
       })
@@ -156,6 +175,7 @@ export class WinnersEffects {
   constructor(
     private actions$: Actions,
     private winnersService: WinnersService,
+    private garageService: GarageService,
     private store: Store
   ) {}
 }

@@ -27,12 +27,20 @@ export const WinnersReducer = createReducer<WinnersState>(
 
   on(
     winnersListSuccess,
-    (_, { data, winnersCount }): WinnersState => ({
-      data,
-      winnersCount: +winnersCount,
-      status: StatusState.Success,
-      error: null
-    })
+    (_, { data, winnersCount, allCarsData }): WinnersState => {
+      const carMap = new Map(allCarsData.map((car) => [car.id, car]));
+      const extendedWinnersData = data.map((i) => ({
+        ...i,
+        name: carMap.get(i.id).name,
+        color: carMap.get(i.id).color
+      }));
+      return {
+        data: extendedWinnersData,
+        winnersCount: +winnersCount,
+        status: StatusState.Success,
+        error: null
+      };
+    }
   ),
 
   on(

@@ -32,6 +32,10 @@ export class GarageService {
     );
   }
 
+  getAllCars(): Observable<CarResponse[]> {
+    return this.http.get<CarResponse[]>(this.garageUrl);
+  }
+
   deleteCar(id: number) {
     return this.http.delete(`${this.garageUrl}/${id}`);
   }

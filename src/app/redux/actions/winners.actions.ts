@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 
 import { Winner } from '../../winners/models/winners.models';
 import { ErrorState } from '../state.models';
+import { CarResponse } from '../../garage/models/cars.models';
 
 export const winnersListLoading = createAction(
   '[Winners] Winners list loading',
@@ -10,7 +11,7 @@ export const winnersListLoading = createAction(
 
 export const winnersListSuccess = createAction(
   '[Winners] Winners list success',
-  props<{ data: Winner[]; winnersCount: string }>()
+  props<{ data: Winner[]; winnersCount: string; allCarsData: CarResponse[] }>()
 );
 
 export const winnersListFailed = createAction(

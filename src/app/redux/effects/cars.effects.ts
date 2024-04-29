@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
-import { catchError, exhaustMap, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { GarageService } from '../../garage.service';
 import { CarResponse } from '../../garage/models/cars.models';
@@ -20,15 +20,15 @@ import {
   updateCar,
   updateCarFailed
 } from '../actions/cars.actions';
-import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
 import { deleteWinner } from '../actions/winners.actions';
+import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
 
 @Injectable()
 export class CarsEffects {
   carsListLoading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(carsListLoading),
-      exhaustMap((action) => {
+      mergeMap((action) => {
         return this.garageService.getCars(action.page).pipe(
           map((response: HttpResponse<CarResponse[]>) => {
             const carCount = response.headers.get('X-Total-Count');

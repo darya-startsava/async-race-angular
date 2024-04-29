@@ -33,6 +33,8 @@ export interface WinnersDataState {
   id: number;
   wins: number;
   time: number;
+  name: string;
+  color: string;
 }
 
 export interface RaceParticipant {
