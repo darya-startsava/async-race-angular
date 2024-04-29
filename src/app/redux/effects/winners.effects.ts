@@ -49,14 +49,6 @@ export class WinnersEffects {
                 response.winnersRequest$.headers.get('X-Total-Count');
               const data: Winner[] = response.winnersRequest$.body;
               const allCarsData = response.allCarsRequest$;
-              console.log(
-                'data:',
-                data,
-                'winnersCount:',
-                winnersCount,
-                'allCarsData',
-                allCarsData
-              );
               return winnersListSuccess({ data, winnersCount, allCarsData });
             }
           ),
@@ -165,8 +157,12 @@ export class WinnersEffects {
           map(() => carsListLoading({ page: page.toString() })),
           catchError((error) =>
             of(error).pipe(
-              filter(() => error.status !== 404),
-              map(() => deleteWinnerFailed({ error }))
+              map(() => {
+                if (error.status === 404) {
+                  return carsListLoading({ page: page.toString() });
+                }
+                return deleteWinnerFailed({ error });
+              })
             )
           )
         )
