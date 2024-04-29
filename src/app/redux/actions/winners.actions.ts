@@ -34,11 +34,6 @@ export const updateWinnerLoading = createAction(
   props<{ id: number; wins: number; time: number }>()
 );
 
-export const updateWinnerSuccess = createAction(
-  '[Garage] Update winner success',
-  props<{ data: Winner }>()
-);
-
 export const updateWinnerFailed = createAction(
   '[Garage] Update winner failed',
   props<{ error: ErrorState }>()
@@ -47,11 +42,6 @@ export const updateWinnerFailed = createAction(
 export const createWinnerLoading = createAction(
   '[Garage] Create winner loading',
   props<{ id: number; time: number }>()
-);
-
-export const createWinnerSuccess = createAction(
-  '[Garage] Create winner success',
-  props<{ data: Winner }>()
 );
 
 export const createWinnerFailed = createAction(

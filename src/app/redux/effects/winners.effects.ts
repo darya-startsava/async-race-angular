@@ -14,14 +14,12 @@ import { checkRaceIsFinished } from '../actions/race.actions';
 import {
   createWinnerFailed,
   createWinnerLoading,
-  createWinnerSuccess,
   deleteWinner,
   deleteWinnerFailed,
   getWinnerFailed,
   getWinnerLoading,
   updateWinnerFailed,
   updateWinnerLoading,
-  updateWinnerSuccess,
   winnersListFailed,
   winnersListLoading,
   winnersListSuccess
@@ -71,7 +69,7 @@ export class WinnersEffects {
   checkRaceIsFinished$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(checkRaceIsFinished),
-      concatLatestFrom(() => [this.store.select(selectCarsFeatureWinnerId)]),
+      concatLatestFrom(() => this.store.select(selectCarsFeatureWinnerId)),
       filter(([_, winnerId]) => typeof winnerId === 'number'),
       map(([_, winnerId]) => getWinnerLoading({ id: winnerId }))
     );
@@ -86,9 +84,13 @@ export class WinnersEffects {
       ]),
       mergeMap(([action, id, time]) =>
         this.winnersService.getWinner(action.id).pipe(
-          map((data: Winner) =>
-            updateWinnerLoading({ ...data, wins: data.wins + 1 })
-          ),
+          map((data: Winner) => {
+            return updateWinnerLoading({
+              ...data,
+              wins: data.wins + 1,
+              time: Math.min(time, data.time)
+            });
+          }),
           catchError((error) => {
             if (error.status === 404) {
               return of(createWinnerLoading({ id, time }));
@@ -115,7 +117,7 @@ export class WinnersEffects {
             time: action.time
           })
           .pipe(
-            map((data: Winner) => createWinnerSuccess({ data })),
+            map(() => winnersListLoading({ page: 1 })),
             catchError((error) =>
               of(
                 createWinnerFailed({
@@ -139,7 +141,7 @@ export class WinnersEffects {
             time: action.time
           })
           .pipe(
-            map((data: Winner) => updateWinnerSuccess({ data })),
+            map(() => winnersListLoading({ page: 1 })),
             catchError((error) =>
               of(
                 updateWinnerFailed({
