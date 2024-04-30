@@ -29,7 +29,10 @@ import {
   selectCarsFeatureWinnerId,
   selectCarsFeatureWinnerTime
 } from '../selectors/cars.selectors';
-import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
+import {
+  selectPaginationFeatureGarageCurrentPage,
+  selectPaginationFeatureWinnersCurrentPage
+} from '../selectors/pagination.selectors';
 import {
   selectWinnersFeatureSortBy,
   selectWinnersFeatureSortOrder
@@ -114,7 +117,10 @@ export class WinnersEffects {
   createWinnerLoading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createWinnerLoading),
-      mergeMap((action) =>
+      concatLatestFrom(() =>
+        this.store.select(selectPaginationFeatureWinnersCurrentPage)
+      ),
+      mergeMap(([action, page]) =>
         this.winnersService
           .createWinner({
             id: action.id,
@@ -122,7 +128,7 @@ export class WinnersEffects {
             time: action.time
           })
           .pipe(
-            map(() => winnersListLoading({ page: 1 })),
+            map(() => winnersListLoading({ page })),
             catchError((error) =>
               of(
                 createWinnerFailed({
@@ -138,7 +144,10 @@ export class WinnersEffects {
   updateWinnerLoading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(updateWinnerLoading),
-      mergeMap((action) =>
+      concatLatestFrom(() =>
+        this.store.select(selectPaginationFeatureWinnersCurrentPage)
+      ),
+      mergeMap(([action, page]) =>
         this.winnersService
           .updateWinner({
             id: action.id,
@@ -146,7 +155,7 @@ export class WinnersEffects {
             time: action.time
           })
           .pipe(
-            map(() => winnersListLoading({ page: 1 })),
+            map(() => winnersListLoading({ page })),
             catchError((error) =>
               of(
                 updateWinnerFailed({
@@ -167,12 +176,12 @@ export class WinnersEffects {
       ),
       mergeMap(([action, page]) =>
         this.winnersService.deleteWinner(action.id).pipe(
-          map(() => carsListLoading({ page: page.toString() })),
+          map(() => carsListLoading({ page })),
           catchError((error) =>
             of(error).pipe(
               map(() => {
                 if (error.status === 404) {
-                  return carsListLoading({ page: page.toString() });
+                  return carsListLoading({ page });
                 }
                 return deleteWinnerFailed({ error });
               })
@@ -186,7 +195,10 @@ export class WinnersEffects {
   changeWinnersSort$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(changeWinnersSort),
-      map(() => winnersListLoading({ page: 1 }))
+      concatLatestFrom(() =>
+        this.store.select(selectPaginationFeatureWinnersCurrentPage)
+      ),
+      map(([_, page]) => winnersListLoading({ page }))
     );
   });
 

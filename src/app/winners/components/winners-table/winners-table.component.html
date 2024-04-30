@@ -5,14 +5,18 @@
         <th>Number</th>
         <th>Name</th>
         <th>Car</th>
-        <th class="change_sort_table_header" (click)="onBestTimeSort()">Best time</th>
-        <th class="change_sort_table_header" (click)="onNumberOfWinsSort()">Number of wins</th>
+        <th class="change_sort_table_header" (click)="onBestTimeSort()">
+          Best time
+        </th>
+        <th class="change_sort_table_header" (click)="onNumberOfWinsSort()">
+          Number of wins
+        </th>
       </tr>
     </thead>
     <tbody>
       @for (winner of winners; track winner.id; let index = $index) {
         <tr>
-          <th>{{ index + 1 }}</th>
+          <th>{{ index + 1 + (currentPage - 1) * 10 }}</th>
           <td>{{ winner.name }}</td>
           <td>
             <app-car-image

@@ -1,0 +1,21 @@
+<p>Total number of winners : {{ winnersCount$ | async }}</p>
+<p>Total number of pages: {{ pageCount$ | async }}</p>
+<div class="pagination_buttons_wrapper">
+  <button
+    mat-button
+    color="accent"
+    [disabled]="(currentPage$ | async) === 1"
+    [routerLink]="['/winners', (currentPage$ | async) - 1]"
+  >
+    Previous page
+  </button>
+  <span> {{ currentPage$ | async }} </span>
+  <a
+    mat-button
+    color="accent"
+    [disabled]="(currentPage$ | async) >= (pageCount$ | async)"
+    [routerLink]="['/winners', (currentPage$ | async) + 1]"
+  >
+    Next page
+  </a>
+</div>

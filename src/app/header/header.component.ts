@@ -5,7 +5,10 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { selectPaginationFeatureGarageCurrentPage } from '../redux/selectors/pagination.selectors';
+import {
+  selectPaginationFeatureGarageCurrentPage,
+  selectPaginationFeatureWinnersCurrentPage
+} from '../redux/selectors/pagination.selectors';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +20,9 @@ import { selectPaginationFeatureGarageCurrentPage } from '../redux/selectors/pag
 export class HeaderComponent {
   public currentGaragePage$: Observable<number> = this.store.select(
     selectPaginationFeatureGarageCurrentPage
+  );
+  public currentWinnersPage$: Observable<number> = this.store.select(
+    selectPaginationFeatureWinnersCurrentPage
   );
   constructor(private store: Store) {}
 }

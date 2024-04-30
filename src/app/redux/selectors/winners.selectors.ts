@@ -10,7 +10,7 @@ export const selectWinnersFeatureData = createSelector(
   (state: WinnersState) => state.data
 );
 
-export const selectWinnersFeatureWinnersCount = createSelector(
+export const selectWinnersFeatureCount = createSelector(
   selectWinnersFeature,
   (state: WinnersState) => state.winnersCount
 );

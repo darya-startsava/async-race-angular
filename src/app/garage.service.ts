@@ -23,7 +23,7 @@ export class GarageService {
 
   constructor(private http: HttpClient) {}
 
-  getCars(page: string): Observable<HttpResponse<CarResponse[]>> {
+  getCars(page: number): Observable<HttpResponse<CarResponse[]>> {
     return this.http.get<CarResponse[]>(
       `${this.garageUrl}?_page=${page}&_limit=${CARS_PER_PAGE_GARAGE}`,
       {

@@ -1,1 +1,5 @@
-<app-winners-table [winners]="winners$ | async"></app-winners-table>
+<app-winners-pagination></app-winners-pagination>
+<app-winners-table
+  [winners]="winners$ | async"
+  [currentPage]="currentPage$ | async"
+></app-winners-table>

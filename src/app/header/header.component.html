@@ -5,7 +5,7 @@
     [routerLink]="['/garage', currentGaragePage$ | async]"
     >Go to the garage</a
   >
-  <a mat-stroked-button color="primary" routerLink="/winners"
+  <a mat-stroked-button color="primary" [routerLink]="['/winners', currentWinnersPage$ | async]"
     >Go to the winners</a
   >
 </nav>

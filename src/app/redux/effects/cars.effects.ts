@@ -63,7 +63,7 @@ export class CarsEffects {
         this.garageService
           .createCar({ name: action.name, color: action.color })
           .pipe(
-            map(() => carsListLoading({ page: page.toString() })),
+            map(() => carsListLoading({ page })),
             catchError((error) => of(createCarFailed({ error })))
           )
       )
@@ -80,7 +80,7 @@ export class CarsEffects {
         this.garageService
           .updateCar({ name: action.name, color: action.color }, action.id)
           .pipe(
-            map(() => carsListLoading({ page: page.toString() })),
+            map(() => carsListLoading({ page })),
             catchError((error) => of(updateCarFailed({ error })))
           )
       )
@@ -95,7 +95,7 @@ export class CarsEffects {
       ),
       mergeMap(([_, page]) =>
         this.garageService.generateCars().pipe(
-          map(() => carsListLoading({ page: page.toString() })),
+          map(() => carsListLoading({ page })),
           catchError((error) => of(generateCarsFailed({ error })))
         )
       )

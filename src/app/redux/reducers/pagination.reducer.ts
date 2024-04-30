@@ -1,6 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { saveGarageCurrentPage } from '../actions/pagination.actions';
+import {
+  saveGarageCurrentPage,
+  saveWinnersCurrentPage
+} from '../actions/pagination.actions';
 import { PaginationState } from '../state.models';
 
 const initialState: PaginationState = {
@@ -15,6 +18,13 @@ export const PaginationReducer = createReducer<PaginationState>(
     (state, { currentPage }): PaginationState => ({
       ...state,
       garageCurrentPage: currentPage
+    })
+  ),
+  on(
+    saveWinnersCurrentPage,
+    (state, { currentPage }): PaginationState => ({
+      ...state,
+      winnersCurrentPage: currentPage
     })
   )
 );

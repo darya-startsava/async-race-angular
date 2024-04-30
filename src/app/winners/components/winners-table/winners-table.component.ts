@@ -14,6 +14,7 @@ import { SortBy, WinnersDataState } from '../../../redux/state.models';
 })
 export class WinnersTableComponent {
   @Input() winners: WinnersDataState[];
+  @Input() currentPage: number;
 
   constructor(public store: Store) {}
 

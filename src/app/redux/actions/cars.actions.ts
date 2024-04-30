@@ -5,7 +5,7 @@ import { ErrorState } from '../state.models';
 
 export const carsListLoading = createAction(
   '[Garage] Cars list loading',
-  props<{ page: string }>()
+  props<{ page: number }>()
 );
 
 export const carsListSuccess = createAction(
