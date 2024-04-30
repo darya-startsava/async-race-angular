@@ -1,15 +1,18 @@
 import { createReducer, on } from '@ngrx/store';
 
 import {
+  changeWinnersSort,
   winnersListFailed,
   winnersListLoading,
   winnersListSuccess
 } from '../actions/winners.actions';
-import { StatusState, WinnersState } from '../state.models';
+import { SortBy, SortOrder, StatusState, WinnersState } from '../state.models';
 
 const initialState: WinnersState = {
   data: [],
   winnersCount: 0,
+  sortBy: SortBy.Id,
+  sortOrder: SortOrder.ASC,
   status: StatusState.Init,
   error: null
 };
@@ -27,7 +30,7 @@ export const WinnersReducer = createReducer<WinnersState>(
 
   on(
     winnersListSuccess,
-    (_, { data, winnersCount, allCarsData }): WinnersState => {
+    (state, { data, winnersCount, allCarsData }): WinnersState => {
       const carMap = new Map(allCarsData.map((car) => [car.id, car]));
       const extendedWinnersData = data.map((i) => ({
         ...i,
@@ -35,6 +38,7 @@ export const WinnersReducer = createReducer<WinnersState>(
         color: carMap.get(i.id).color
       }));
       return {
+        ...state,
         data: extendedWinnersData,
         winnersCount: +winnersCount,
         status: StatusState.Success,
@@ -50,5 +54,19 @@ export const WinnersReducer = createReducer<WinnersState>(
       error,
       status: StatusState.Failed
     })
-  )
+  ),
+
+  on(changeWinnersSort, (state, { sortBy }): WinnersState => {
+    if (sortBy === state.sortBy) {
+      return {
+        ...state,
+        sortOrder:
+          state.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC
+      };
+    }
+    return {
+      ...state,
+      sortBy
+    };
+  })
 );

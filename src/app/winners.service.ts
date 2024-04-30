@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CARS_PER_PAGE_WINNERS, URL } from './constants';
+import { SortBy, SortOrder } from './redux/state.models';
 import { Winner } from './winners/models/winners.models';
 
 @Injectable({
@@ -17,9 +18,13 @@ export class WinnersService {
   };
   constructor(private http: HttpClient) {}
 
-  getWinners(page: number): Observable<HttpResponse<Winner[]>> {
+  getWinners(
+    page: number,
+    sortBy: SortBy,
+    sortOrder: SortOrder
+  ): Observable<HttpResponse<Winner[]>> {
     return this.http.get<Winner[]>(
-      `${this.winnersUrl}?_page=${page}&_limit=${CARS_PER_PAGE_WINNERS}`,
+      `${this.winnersUrl}?_page=${page}&_limit=${CARS_PER_PAGE_WINNERS}&_sort=${sortBy}&_order=${sortOrder}`,
       {
         observe: 'response'
       }

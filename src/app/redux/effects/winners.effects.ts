@@ -12,6 +12,7 @@ import { Winner } from '../../winners/models/winners.models';
 import { carsListLoading } from '../actions/cars.actions';
 import { checkRaceIsFinished } from '../actions/race.actions';
 import {
+  changeWinnersSort,
   createWinnerFailed,
   createWinnerLoading,
   deleteWinner,
@@ -29,15 +30,27 @@ import {
   selectCarsFeatureWinnerTime
 } from '../selectors/cars.selectors';
 import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
+import {
+  selectWinnersFeatureSortBy,
+  selectWinnersFeatureSortOrder
+} from '../selectors/winners.selectors';
 
 @Injectable()
 export class WinnersEffects {
   winnersListLoading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(winnersListLoading),
-      mergeMap((action) => {
+      concatLatestFrom(() => [
+        this.store.select(selectWinnersFeatureSortBy),
+        this.store.select(selectWinnersFeatureSortOrder)
+      ]),
+      mergeMap(([action, sortBy, sortOrder]) => {
         return forkJoin({
-          winnersRequest$: this.winnersService.getWinners(action.page),
+          winnersRequest$: this.winnersService.getWinners(
+            action.page,
+            sortBy,
+            sortOrder
+          ),
           allCarsRequest$: this.garageService.getAllCars()
         }).pipe(
           map(
@@ -167,6 +180,13 @@ export class WinnersEffects {
           )
         )
       )
+    );
+  });
+
+  changeWinnersSort$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(changeWinnersSort),
+      map(() => winnersListLoading({ page: 1 }))
     );
   });
 

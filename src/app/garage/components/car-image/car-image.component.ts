@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class CarImageComponent {
   @Input() color: string;
+  @Input() width: number;
 }

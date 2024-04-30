@@ -25,6 +25,8 @@ export interface CarsDataState {
 export interface WinnersState {
   data: WinnersDataState[];
   winnersCount: number;
+  sortBy: SortBy;
+  sortOrder: SortOrder;
   status: StatusState;
   error: ErrorState | null;
 }
@@ -48,6 +50,17 @@ export enum EngineStatus {
   Drive = 'Drive',
   Failed = 'Failed',
   Success = 'Success'
+}
+
+export enum SortBy {
+  Id = 'id',
+  Wins = 'wins',
+  Time = 'time'
+}
+
+export enum SortOrder {
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
 
 export interface PaginationState {

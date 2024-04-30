@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Winner } from '../../winners/models/winners.models';
-import { ErrorState } from '../state.models';
 import { CarResponse } from '../../garage/models/cars.models';
+import { Winner } from '../../winners/models/winners.models';
+import { ErrorState, SortBy } from '../state.models';
 
 export const winnersListLoading = createAction(
   '[Winners] Winners list loading',
@@ -57,4 +57,9 @@ export const deleteWinner = createAction(
 export const deleteWinnerFailed = createAction(
   '[Garage] delete winner failed',
   props<{ error: ErrorState }>()
+);
+
+export const changeWinnersSort = createAction(
+  '[WinnersTableComponent] change winners sort',
+  props<{ sortBy: SortBy }>()
 );

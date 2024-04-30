@@ -46,5 +46,12 @@ $carItem: mat.define-palette(mat.$indigo-palette, 100);
     .car_wrapper {
         position: relative;
         border-bottom: 5px dashed #da6a00;
+
+        .car_image {
+            position: absolute;
+            left: 115px;
+            bottom: -41px;
+            z-index: 1;
+        }
     }
 }
