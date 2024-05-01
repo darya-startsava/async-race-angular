@@ -1,0 +1,21 @@
+@use '@angular/material' as mat;
+
+$winnerPopup: mat.define-palette(mat.$indigo-palette, 200);
+
+.winner-popup_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    background-color: mat.get-color-from-palette($winnerPopup);
+
+    h3 {
+        margin-bottom: 0px;
+    }
+
+    .winner-popup_close-button {
+        margin-top: 10px;
+    }
+}

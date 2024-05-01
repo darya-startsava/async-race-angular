@@ -23,3 +23,8 @@ export enum EngineStatusRequest {
   Stopped = 'stopped',
   Drive = 'drive'
 }
+
+export interface WinnerData {
+  name: string;
+  time: number;
+}

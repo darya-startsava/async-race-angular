@@ -9,6 +9,8 @@
 >
   Generate {{ numberOfCarsToGenerate }} random cars
 </button>
-<div>Winner time: {{ winnerTime$ | async }}</div>
-<div>Winner name: {{ winnerName$ | async }}</div>
-<app-cars-list [cars]="cars$ | async"></app-cars-list>
+<app-cars-list
+  [cars]="cars$ | async"
+  [winnerTime]="winnerTime$ | async"
+  [winnerName]="winnerName$ | async"
+></app-cars-list>
