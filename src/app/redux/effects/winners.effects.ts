@@ -5,6 +5,7 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import { catchError, filter, forkJoin, map, mergeMap, of } from 'rxjs';
 
+import { ResponseStatusCodes } from '../../constants';
 import { GarageService } from '../../garage.service';
 import { CarResponse } from '../../garage/models/cars.models';
 import { WinnersService } from '../../winners.service';
@@ -13,15 +14,11 @@ import { carsListLoading } from '../actions/cars.actions';
 import { checkRaceIsFinished } from '../actions/race.actions';
 import {
   changeWinnersSort,
-  createWinnerFailed,
   createWinnerLoading,
   deleteWinner,
-  deleteWinnerFailed,
-  getWinnerFailed,
   getWinnerLoading,
-  updateWinnerFailed,
   updateWinnerLoading,
-  winnersListFailed,
+  userErrorWinnersPage,
   winnersListLoading,
   winnersListSuccess
 } from '../actions/winners.actions';
@@ -68,7 +65,13 @@ export class WinnersEffects {
               return winnersListSuccess({ data, winnersCount, allCarsData });
             }
           ),
-          catchError((error) => of(winnersListFailed({ error })))
+          catchError((error) =>
+            of(
+              userErrorWinnersPage({
+                error: { status: error.status, statusText: error.statusText }
+              })
+            )
+          )
         );
       })
     );
@@ -100,11 +103,11 @@ export class WinnersEffects {
             });
           }),
           catchError((error) => {
-            if (error.status === 404) {
+            if (error.status === ResponseStatusCodes.NotFound) {
               return of(createWinnerLoading({ id, time }));
             }
             return of(
-              getWinnerFailed({
+              userErrorWinnersPage({
                 error: { status: error.status, statusText: error.statusText }
               })
             );
@@ -131,7 +134,7 @@ export class WinnersEffects {
             map(() => winnersListLoading({ page })),
             catchError((error) =>
               of(
-                createWinnerFailed({
+                userErrorWinnersPage({
                   error: { status: error.status, statusText: error.statusText }
                 })
               )
@@ -158,7 +161,7 @@ export class WinnersEffects {
             map(() => winnersListLoading({ page })),
             catchError((error) =>
               of(
-                updateWinnerFailed({
+                userErrorWinnersPage({
                   error: { status: error.status, statusText: error.statusText }
                 })
               )
@@ -180,10 +183,12 @@ export class WinnersEffects {
           catchError((error) =>
             of(error).pipe(
               map(() => {
-                if (error.status === 404) {
+                if (error.status === ResponseStatusCodes.NotFound) {
                   return carsListLoading({ page });
                 }
-                return deleteWinnerFailed({ error });
+                return userErrorWinnersPage({
+                  error: { status: error.status, statusText: error.statusText }
+                });
               })
             )
           )

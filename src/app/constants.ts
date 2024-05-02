@@ -7,3 +7,8 @@ export const INDENT_LEFT_NUMBER = 115;
 export const INDENT_RIGHT_NUMBER = 130;
 export const INDENT_LEFT = `${INDENT_LEFT_NUMBER}px`;
 export const INDENT_RIGHT = `${INDENT_RIGHT_NUMBER}px`;
+export const ERROR_MESSAGE_DURATION = 3;
+export enum ResponseStatusCodes {
+  NotFound = 404,
+  InternalServerError = 500
+}

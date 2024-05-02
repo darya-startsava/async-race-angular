@@ -4,18 +4,18 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
+import { ResponseStatusCodes } from '../../constants';
 import { EngineService } from '../../engine.service';
 import {
   EngineResponse,
   EngineStatusRequest
 } from '../../garage/models/cars.models';
+import { userErrorGaragePage } from '../actions/cars.actions';
 import {
   driveEngineFailed,
   driveEngineLoading,
   driveEngineSuccess,
-  startEngineFailed,
   startEngineLoading,
-  stopEngineFailed,
   stopEngineLoading,
   stopEngineSuccess
 } from '../actions/engine.actions';
@@ -37,7 +37,13 @@ export class EngineEffects {
             map((data: EngineResponse) =>
               driveEngineLoading({ id: action.id, data })
             ),
-            catchError((error) => of(startEngineFailed({ error })))
+            catchError((error) =>
+              of(
+                userErrorGaragePage({
+                  error: { status: error.status, statusText: error.statusText }
+                })
+              )
+            )
           )
       )
     );
@@ -49,7 +55,16 @@ export class EngineEffects {
       mergeMap((action) =>
         this.engineService.driveEngine(action.id).pipe(
           map(() => driveEngineSuccess({ id: action.id })),
-          catchError((error) => of(driveEngineFailed({ id: action.id, error })))
+          catchError((error) => {
+            if (error.status === ResponseStatusCodes.InternalServerError) {
+              return of(driveEngineFailed({ id: action.id, error }));
+            }
+            return of(
+              userErrorGaragePage({
+                error: { status: error.status, statusText: error.statusText }
+              })
+            );
+          })
         )
       )
     );
@@ -72,7 +87,13 @@ export class EngineEffects {
           .toggleEngine(action.id, EngineStatusRequest.Stopped)
           .pipe(
             map(() => stopEngineSuccess({ id: action.id })),
-            catchError((error) => of(stopEngineFailed({ error })))
+            catchError((error) =>
+              of(
+                userErrorGaragePage({
+                  error: { status: error.status, statusText: error.statusText }
+                })
+              )
+            )
           )
       )
     );

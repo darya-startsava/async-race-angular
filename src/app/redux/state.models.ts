@@ -7,7 +7,6 @@ export interface AppState {
 export interface CarsState {
   data: CarsDataState[];
   carCount: number;
-  status: StatusState;
   error: ErrorState | null;
   isRace: boolean;
   winnerId: number | null;
@@ -27,7 +26,6 @@ export interface WinnersState {
   winnersCount: number;
   sortBy: SortBy;
   sortOrder: SortOrder;
-  status: StatusState;
   error: ErrorState | null;
 }
 
@@ -66,13 +64,6 @@ export enum SortOrder {
 export interface PaginationState {
   garageCurrentPage: number;
   winnersCurrentPage: number;
-}
-
-export enum StatusState {
-  Init = 'Init',
-  Loading = 'Loading',
-  Success = 'Success',
-  Failed = 'Failed'
 }
 
 export interface ErrorState {

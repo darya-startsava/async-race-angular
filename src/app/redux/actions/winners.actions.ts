@@ -14,8 +14,8 @@ export const winnersListSuccess = createAction(
   props<{ data: Winner[]; winnersCount: string; allCarsData: CarResponse[] }>()
 );
 
-export const winnersListFailed = createAction(
-  '[Winners] Winners list Failed',
+export const userErrorWinnersPage = createAction(
+  '[Winners] User error',
   props<{ error: ErrorState }>()
 );
 
@@ -24,19 +24,9 @@ export const getWinnerLoading = createAction(
   props<{ id: number }>()
 );
 
-export const getWinnerFailed = createAction(
-  '[Garage] Get winner failed',
-  props<{ error: ErrorState }>()
-);
-
 export const updateWinnerLoading = createAction(
   '[Garage] Update winner loading',
   props<{ id: number; wins: number; time: number }>()
-);
-
-export const updateWinnerFailed = createAction(
-  '[Garage] Update winner failed',
-  props<{ error: ErrorState }>()
 );
 
 export const createWinnerLoading = createAction(
@@ -44,19 +34,9 @@ export const createWinnerLoading = createAction(
   props<{ id: number; time: number }>()
 );
 
-export const createWinnerFailed = createAction(
-  '[Garage] Create winner failed',
-  props<{ error: ErrorState }>()
-);
-
 export const deleteWinner = createAction(
   '[Garage] delete winner',
   props<{ id: number }>()
-);
-
-export const deleteWinnerFailed = createAction(
-  '[Garage] delete winner failed',
-  props<{ error: ErrorState }>()
 );
 
 export const changeWinnersSort = createAction(

@@ -8,17 +8,13 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 import { GarageService } from '../../garage.service';
 import { CarResponse } from '../../garage/models/cars.models';
 import {
-  carsListFailed,
   carsListLoading,
   carsListSuccess,
   createCar,
-  createCarFailed,
   deleteCar,
-  deleteCarFailed,
   generateCars,
-  generateCarsFailed,
   updateCar,
-  updateCarFailed
+  userErrorGaragePage
 } from '../actions/cars.actions';
 import { deleteWinner } from '../actions/winners.actions';
 import { selectPaginationFeatureGarageCurrentPage } from '../selectors/pagination.selectors';
@@ -35,7 +31,13 @@ export class CarsEffects {
             const data: CarResponse[] = response.body;
             return carsListSuccess({ data, carCount });
           }),
-          catchError((error) => of(carsListFailed({ error })))
+          catchError((error) =>
+            of(
+              userErrorGaragePage({
+                error: { status: error.status, statusText: error.statusText }
+              })
+            )
+          )
         );
       })
     );
@@ -47,7 +49,13 @@ export class CarsEffects {
       mergeMap((action) =>
         this.garageService.deleteCar(action.id).pipe(
           map(() => deleteWinner({ id: action.id })),
-          catchError((error) => of(deleteCarFailed({ error })))
+          catchError((error) =>
+            of(
+              userErrorGaragePage({
+                error: { status: error.status, statusText: error.statusText }
+              })
+            )
+          )
         )
       )
     );
@@ -64,7 +72,13 @@ export class CarsEffects {
           .createCar({ name: action.name, color: action.color })
           .pipe(
             map(() => carsListLoading({ page })),
-            catchError((error) => of(createCarFailed({ error })))
+            catchError((error) =>
+              of(
+                userErrorGaragePage({
+                  error: { status: error.status, statusText: error.statusText }
+                })
+              )
+            )
           )
       )
     );
@@ -81,7 +95,13 @@ export class CarsEffects {
           .updateCar({ name: action.name, color: action.color }, action.id)
           .pipe(
             map(() => carsListLoading({ page })),
-            catchError((error) => of(updateCarFailed({ error })))
+            catchError((error) =>
+              of(
+                userErrorGaragePage({
+                  error: { status: error.status, statusText: error.statusText }
+                })
+              )
+            )
           )
       )
     );
@@ -96,7 +116,13 @@ export class CarsEffects {
       mergeMap(([_, page]) =>
         this.garageService.generateCars().pipe(
           map(() => carsListLoading({ page })),
-          catchError((error) => of(generateCarsFailed({ error })))
+          catchError((error) =>
+            of(
+              userErrorGaragePage({
+                error: { status: error.status, statusText: error.statusText }
+              })
+            )
+          )
         )
       )
     );

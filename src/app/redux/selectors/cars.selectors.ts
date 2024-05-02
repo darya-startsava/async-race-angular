@@ -9,6 +9,11 @@ export const selectCarsFeatureData = createSelector(
   (state: CarsState) => state.data
 );
 
+export const selectCarsFeatureError = createSelector(
+  selectCarsFeature,
+  (state: CarsState) => state.error
+);
+
 export const selectCarsFeatureCount = createSelector(
   selectCarsFeature,
   (state: CarsState) => state.carCount

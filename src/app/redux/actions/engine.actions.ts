@@ -8,11 +8,6 @@ export const startEngineLoading = createAction(
   props<{ id: number }>()
 );
 
-export const startEngineFailed = createAction(
-  '[CarItem] Start engine failed',
-  props<{ error: ErrorState }>()
-);
-
 export const driveEngineLoading = createAction(
   '[CarItem] Drive engine loading',
   props<{ id: number; data: EngineResponse }>()
@@ -36,9 +31,4 @@ export const stopEngineLoading = createAction(
 export const stopEngineSuccess = createAction(
   '[CarItem] Stop engine success',
   props<{ id: number }>()
-);
-
-export const stopEngineFailed = createAction(
-  '[CarItem] Stop engine failed',
-  props<{ error: ErrorState }>()
 );

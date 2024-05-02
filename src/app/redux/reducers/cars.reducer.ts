@@ -1,11 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 
 import {
-  carsListFailed,
   carsListLoading,
   carsListSuccess,
   deleteCar,
-  deleteCarFailed
+  userErrorGaragePage
 } from '../actions/cars.actions';
 import {
   driveEngineFailed,
@@ -18,13 +17,12 @@ import {
   resetRace,
   startRace
 } from '../actions/race.actions';
-import { CarsState, EngineStatus, StatusState } from '../state.models';
+import { CarsState, EngineStatus } from '../state.models';
 
 const initialState: CarsState = {
   data: [],
   carCount: 0,
   error: null,
-  status: StatusState.Init,
   isRace: false,
   winnerId: null
 };
@@ -42,7 +40,6 @@ export const CarsReducer = createReducer<CarsState>(
     (state): CarsState => ({
       ...state,
       error: null,
-      status: StatusState.Loading,
       isRace: false,
       winnerId: null
     })
@@ -54,26 +51,18 @@ export const CarsReducer = createReducer<CarsState>(
       ...state,
       data: data.map((i) => ({ ...i, ...initialCarPartialState })),
       carCount: +carCount,
-      error: null,
-      status: StatusState.Success
+      error: null
     })
   ),
 
-  on(carsListFailed, (state, { error }): CarsState => {
-    return {
-      ...state,
-      error,
-      status: StatusState.Failed
-    };
-  }),
-
-  on(deleteCar, (state): CarsState => ({ ...state, error: null })),
-  on(deleteCarFailed, (state, { error }): CarsState => {
+  on(userErrorGaragePage, (state, { error }): CarsState => {
     return {
       ...state,
       error
     };
   }),
+
+  on(deleteCar, (state): CarsState => ({ ...state, error: null })),
 
   on(
     driveEngineLoading,
@@ -157,7 +146,7 @@ export const CarsReducer = createReducer<CarsState>(
       const [winner] = state.data
         .filter((i) => i.engineStatus === EngineStatus.Success)
         .sort((a, b) => b.velocity - a.velocity);
-      return { ...state, winnerId: winner.id };
+      return { ...state, winnerId: winner?.id || null };
     }
     return state;
   })

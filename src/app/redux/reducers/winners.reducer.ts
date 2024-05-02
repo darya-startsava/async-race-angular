@@ -2,18 +2,17 @@ import { createReducer, on } from '@ngrx/store';
 
 import {
   changeWinnersSort,
-  winnersListFailed,
+  userErrorWinnersPage,
   winnersListLoading,
   winnersListSuccess
 } from '../actions/winners.actions';
-import { SortBy, SortOrder, StatusState, WinnersState } from '../state.models';
+import { SortBy, SortOrder, WinnersState } from '../state.models';
 
 const initialState: WinnersState = {
   data: [],
   winnersCount: 0,
   sortBy: SortBy.Id,
   sortOrder: SortOrder.ASC,
-  status: StatusState.Init,
   error: null
 };
 
@@ -23,7 +22,6 @@ export const WinnersReducer = createReducer<WinnersState>(
     winnersListLoading,
     (state): WinnersState => ({
       ...state,
-      status: StatusState.Loading,
       error: null
     })
   ),
@@ -41,18 +39,16 @@ export const WinnersReducer = createReducer<WinnersState>(
         ...state,
         data: extendedWinnersData,
         winnersCount: +winnersCount,
-        status: StatusState.Success,
         error: null
       };
     }
   ),
 
   on(
-    winnersListFailed,
+    userErrorWinnersPage,
     (state, { error }): WinnersState => ({
       ...state,
-      error,
-      status: StatusState.Failed
+      error
     })
   ),
 
