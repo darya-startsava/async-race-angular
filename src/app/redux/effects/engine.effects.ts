@@ -22,7 +22,7 @@ import {
 import { checkRaceIsFinished, resetRace } from '../actions/race.actions';
 import {
   selectCarsFeatureData,
-  selectCarsFeatureIsRace,
+  selectCarsFeatureIsRace
 } from '../selectors/cars.selectors';
 
 @Injectable()

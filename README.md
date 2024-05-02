@@ -1,7 +1,6 @@
 ## Demo: https://darya-startsava.github.io/async-race-angular
 
-## Calculated score: 395/405
-
+## Calculated score: 400/405
 
 **[This server repository](https://github.com/mikhama/async-race-api.git) should be cloned, and the server should be kept running during the functionality review.**
 
@@ -91,7 +90,7 @@
 
 ## 🎨 Prettier and ESLint Configuration (10 points)
 
-- [ ] **Prettier Setup (5 points):** Prettier is correctly set up with two scripts in `package.json`: `format` for auto-formatting and `ci:format` for checking issues.
+- [x] **Prettier Setup (5 points):** Prettier is correctly set up with two scripts in `package.json`: `format` for auto-formatting and `ci:format` for checking issues.
 - [x] **ESLint Configuration (5 points):** ESLint is configured with the [Airbnb style guide](https://www.npmjs.com/package/eslint-config-airbnb). A `lint` script in `package.json` runs ESLint checks. Configuration files should reflect strict TypeScript settings as per `tsconfig.json`.
 
 ## 🌟 Overall Code Quality (35 points)

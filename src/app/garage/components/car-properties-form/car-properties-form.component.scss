@@ -3,33 +3,33 @@
 $input: mat.define-palette(mat.$grey-palette, 300);
 
 .car-properties_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 5px;
+  align-items: center;
+
+  h4 {
+    margin: 0;
+    padding-left: 10px;
+  }
+
+  .inputs-group_wrapper {
     display: flex;
-    flex-wrap: wrap;
     column-gap: 10px;
-    row-gap: 5px;
-    align-items: center;
 
-    h4 {
-        margin: 0;
-        padding-left: 10px;
+    input {
+      background-color: mat.get-color-from-palette($input);
+      border-radius: 5px;
+
+      &.input-name {
+        width: 120px;
+        height: 30px;
+      }
+
+      &.input-color {
+        height: 34px;
+      }
     }
-
-    .inputs-group_wrapper {
-        display: flex;
-        column-gap: 10px;
-
-        input {
-            background-color: mat.get-color-from-palette($input);
-            border-radius: 5px;
-
-            &.input-name {
-                width: 120px;
-                height: 30px;
-            }
-
-            &.input-color {
-                height: 34px;
-            }
-        }
-    }
+  }
 }

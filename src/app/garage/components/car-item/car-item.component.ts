@@ -22,10 +22,7 @@ import {
   startEngineLoading,
   stopEngineLoading
 } from '../../../redux/actions/engine.actions';
-import {
-  CarsDataState,
-  EngineStatus,
-} from '../../../redux/state.models';
+import { CarsDataState, EngineStatus } from '../../../redux/state.models';
 import { CarRequest } from '../../models/cars.models';
 import { CarImageComponent } from '../car-image/car-image.component';
 import { CarPropertiesFormComponent } from '../car-properties-form/car-properties-form.component';

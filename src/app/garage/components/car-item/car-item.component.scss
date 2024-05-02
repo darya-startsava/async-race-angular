@@ -3,55 +3,54 @@
 $carItem: mat.define-palette(mat.$indigo-palette, 100);
 
 .car-item_wrapper {
-    padding-top: 10px;
+  padding-top: 10px;
+  position: relative;
+
+  &.colored {
+    background-color: mat.get-color-from-palette($carItem);
+  }
+
+  .car_buttons_wrapper {
+    display: flex;
+    column-gap: 10px;
+    z-index: 2;
     position: relative;
+    padding-left: 10px;
 
-    &.colored {
-        background-color: mat.get-color-from-palette($carItem);
+    .update-form_wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 10px;
+      row-gap: 5px;
+      align-items: end;
     }
+  }
 
-    .car_buttons_wrapper {
-        display: flex;
-        column-gap: 10px;
-        z-index: 2;
-        position: relative;
-        padding-left: 10px;
+  h3 {
+    padding-left: 10px;
+  }
 
-        .update-form_wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            column-gap: 10px;
-            row-gap: 5px;
-            align-items: end;
+  .hidden {
+    visibility: hidden;
+  }
 
-        }
+  .flag {
+    position: absolute;
+    bottom: -12px;
+    right: 75px;
+    height: 75px;
+    width: 100px;
+  }
+
+  .car_wrapper {
+    position: relative;
+    border-bottom: 5px dashed #da6a00;
+
+    .car_image {
+      position: absolute;
+      left: 115px;
+      bottom: -41px;
+      z-index: 1;
     }
-
-    h3 {
-        padding-left: 10px;
-    }
-
-    .hidden {
-        visibility: hidden;
-    }
-
-    .flag {
-        position: absolute;
-        bottom: -12px;
-        right: 75px;
-        height: 75px;
-        width: 100px;
-    }
-
-    .car_wrapper {
-        position: relative;
-        border-bottom: 5px dashed #da6a00;
-
-        .car_image {
-            position: absolute;
-            left: 115px;
-            bottom: -41px;
-            z-index: 1;
-        }
-    }
+  }
 }

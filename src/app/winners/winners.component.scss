@@ -3,6 +3,6 @@
 $pageTitle: mat.define-palette(mat.$pink-palette, 400);
 
 .page_title {
-    text-align: center;
-    color: mat.get-color-from-palette($pageTitle);
+  text-align: center;
+  color: mat.get-color-from-palette($pageTitle);
 }

@@ -4,37 +4,35 @@ $carItem: mat.define-palette(mat.$indigo-palette, 100);
 $tableHeader: mat.define-palette(mat.$indigo-palette, 200);
 
 .winners_table_wrapper {
-    padding-left: 10px;
+  padding-left: 10px;
 
-    table {
-        width: 70%;
+  table {
+    width: 70%;
 
-        thead {
+    thead {
+      .change_sort_table_header {
+        cursor: pointer;
+        color: #da6a00;
+      }
 
-            .change_sort_table_header {
-                cursor: pointer;
-                color: #da6a00;
-            }
-
-            tr:nth-child(1) {
-                background-color: mat.get-color-from-palette($tableHeader);
-            }
-        }
-
-        tbody {
-
-            tr:nth-child(odd) {
-                background-color: mat.get-color-from-palette($carItem);
-            }
-
-            td {
-                text-align: center;
-            }
-
-            .car_image {
-                display: flex;
-                justify-content: center;
-            }
-        }
+      tr:nth-child(1) {
+        background-color: mat.get-color-from-palette($tableHeader);
+      }
     }
+
+    tbody {
+      tr:nth-child(odd) {
+        background-color: mat.get-color-from-palette($carItem);
+      }
+
+      td {
+        text-align: center;
+      }
+
+      .car_image {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
 }
