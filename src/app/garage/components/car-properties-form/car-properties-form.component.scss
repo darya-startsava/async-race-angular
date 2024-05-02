@@ -7,7 +7,12 @@ $input: mat.define-palette(mat.$grey-palette, 300);
     flex-wrap: wrap;
     column-gap: 10px;
     row-gap: 5px;
-    align-items: end;
+    align-items: center;
+
+    h4 {
+        margin: 0;
+        padding-left: 10px;
+    }
 
     .inputs-group_wrapper {
         display: flex;

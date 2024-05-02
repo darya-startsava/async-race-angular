@@ -1,3 +1,16 @@
+@use '@angular/material' as mat;
+
+$pageTitle: mat.define-palette(mat.$indigo-palette, 400);
+
+.page_title {
+    text-align: center;
+    color: mat.get-color-from-palette($pageTitle);
+}
+
+
+
+
+
 .generate-cars_button {
-    margin: 20px 0;
+    margin: 20px 0 20px 10px;
 }

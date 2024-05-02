@@ -1,0 +1,8 @@
+@use '@angular/material' as mat;
+
+$pageInformation: mat.define-palette(mat.$indigo-palette, 600);
+
+.page_information {
+    color: mat.get-color-from-palette($pageInformation);
+    padding-left: 10px;
+}
