@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -6,6 +13,7 @@ import {
   Validators
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { Subscription } from 'rxjs';
 
 import { DEFAULT_NEW_CAR_COLOR } from '../../../constants';
 
@@ -16,29 +24,50 @@ import { DEFAULT_NEW_CAR_COLOR } from '../../../constants';
   templateUrl: './car-properties-form.component.html',
   styleUrl: './car-properties-form.component.scss'
 })
-export class CarPropertiesFormComponent implements OnInit {
+export class CarPropertiesFormComponent implements OnInit, OnDestroy {
   @Input() initialColor: string;
   @Input() initialName: string;
   @Input() title: string;
   @Input() buttonName: string;
+  @Input() isCreatingForm: boolean;
   @Output() formSubmitted = new EventEmitter<{ name: string; color: string }>();
+
   carPropertiesForm = new FormGroup({
     color: new FormControl(DEFAULT_NEW_CAR_COLOR, [Validators.required]),
     name: new FormControl('', [Validators.required])
   });
 
+  subscription: Subscription;
+
   ngOnInit(): void {
-    if (this.initialColor) {
-      this.carPropertiesForm.patchValue({ color: this.initialColor });
+    let storedName;
+    let storedColor;
+    if (this.isCreatingForm) {
+      const carData = sessionStorage.getItem('createCar');
+
+      if (carData) {
+        const { name, color } = JSON.parse(carData);
+        storedName = name;
+        storedColor = color;
+      }
+      this.subscription = this.carPropertiesForm.valueChanges.subscribe(
+        (values) => {
+          sessionStorage.setItem('createCar', JSON.stringify(values));
+        }
+      );
     }
-    if (this.initialName) {
-      this.carPropertiesForm.patchValue({ name: this.initialName });
-    }
+
+    this.carPropertiesForm.patchValue({
+      color: storedColor || this.initialColor
+    });
+
+    this.carPropertiesForm.patchValue({ name: storedName || this.initialName });
   }
 
   onSubmit() {
     this.formSubmitted.emit({ name: this.name, color: this.color });
     this.carPropertiesForm.reset({ color: DEFAULT_NEW_CAR_COLOR, name: '' });
+    sessionStorage.removeItem('createCar');
   }
 
   get name(): string {
@@ -47,5 +76,9 @@ export class CarPropertiesFormComponent implements OnInit {
 
   get color(): string {
     return this.carPropertiesForm.value.color;
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
