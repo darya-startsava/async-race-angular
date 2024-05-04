@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import {
+  CARS_PER_PAGE_GARAGE,
   ERROR_MESSAGE_DURATION,
   NUMBER_OF_CARS_TO_GENERATE
 } from '../constants';
@@ -14,6 +15,7 @@ import { GarageService } from '../garage.service';
 import { generateCars } from '../redux/actions/cars.actions';
 import { saveGarageCurrentPage } from '../redux/actions/pagination.actions';
 import {
+  selectCarsFeatureCount,
   selectCarsFeatureData,
   selectCarsFeatureError,
   selectCarsFeatureWinnerName,
@@ -54,6 +56,10 @@ export class GarageComponent implements OnInit, OnDestroy {
   public winnerName$: Observable<string> = this.store.select(
     selectCarsFeatureWinnerName
   );
+
+  private carCount$: Observable<number | null> = this.store.select(
+    selectCarsFeatureCount
+  );
   public numberOfCarsToGenerate = NUMBER_OF_CARS_TO_GENERATE;
   private subscriptions: Subscription[] = [];
 
@@ -61,7 +67,8 @@ export class GarageComponent implements OnInit, OnDestroy {
     public garageService: GarageService,
     private store: Store,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,6 +86,22 @@ export class GarageComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(errorSubscription);
+    const carCountSubscription = this.carCount$.subscribe((carCount) => {
+      if (carCount !== null) {
+        const currentPage = +this.route.snapshot.params['page'];
+        const maxPage = Math.ceil(carCount / CARS_PER_PAGE_GARAGE);
+        if (currentPage > maxPage) {
+          this.router.navigate(['garage', maxPage]);
+        }
+        if (currentPage === 0) {
+          this.router.navigate(['garage', 1]);
+        }
+      }
+      if (carCount === 0) {
+        this.router.navigate(['garage', 1]);
+      }
+    });
+    this.subscriptions.push(carCountSubscription);
   }
 
   ngOnDestroy(): void {

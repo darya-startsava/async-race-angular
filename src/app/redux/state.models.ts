@@ -6,7 +6,7 @@ export interface AppState {
 
 export interface CarsState {
   data: CarsDataState[];
-  carCount: number;
+  carCount: number | null;
   error: ErrorState | null;
   isRace: boolean;
   winnerId: number | null;
@@ -23,7 +23,7 @@ export interface CarsDataState {
 
 export interface WinnersState {
   data: WinnersDataState[];
-  winnersCount: number;
+  winnersCount: number | null;
   sortBy: SortBy;
   sortOrder: SortOrder;
   error: ErrorState | null;

@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { ERROR_MESSAGE_DURATION } from '../constants';
+import { CARS_PER_PAGE_WINNERS, ERROR_MESSAGE_DURATION } from '../constants';
 import { saveWinnersCurrentPage } from '../redux/actions/pagination.actions';
 import { selectPaginationFeatureWinnersCurrentPage } from '../redux/selectors/pagination.selectors';
 import {
+  selectWinnersFeatureCount,
   selectWinnersFeatureData,
   selectWinnersFeatureError
 } from '../redux/selectors/winners.selectors';
@@ -34,10 +35,14 @@ export class WinnersComponent implements OnInit, OnDestroy {
   public currentPage$: Observable<number> = this.store.select(
     selectPaginationFeatureWinnersCurrentPage
   );
+  private winnersCount$: Observable<number | null> = this.store.select(
+    selectWinnersFeatureCount
+  );
   constructor(
     private store: Store,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +60,24 @@ export class WinnersComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(errorSubscription);
+    const winnersCountSubscription = this.winnersCount$.subscribe(
+      (winnersCount) => {
+        if (winnersCount !== null) {
+          const currentPage = +this.route.snapshot.params['page'];
+          const maxPage = Math.ceil(winnersCount / CARS_PER_PAGE_WINNERS);
+          if (currentPage > maxPage) {
+            this.router.navigate(['winners', maxPage]);
+          }
+          if (currentPage === 0) {
+            this.router.navigate(['winners', 1]);
+          }
+        }
+        if (winnersCount === 0) {
+          this.router.navigate(['winners', 1]);
+        }
+      }
+    );
+    this.subscriptions.push(winnersCountSubscription);
   }
 
   ngOnDestroy(): void {

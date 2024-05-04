@@ -10,7 +10,7 @@ import { SortBy, SortOrder, WinnersState } from '../state.models';
 
 const initialState: WinnersState = {
   data: [],
-  winnersCount: 0,
+  winnersCount: null,
   sortBy: SortBy.Id,
   sortOrder: SortOrder.ASC,
   error: null

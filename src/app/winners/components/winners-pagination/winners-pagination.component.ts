@@ -19,7 +19,7 @@ import { selectWinnersFeatureCount } from '../../../redux/selectors/winners.sele
   styleUrl: './winners-pagination.component.scss'
 })
 export class WinnersPaginationComponent {
-  public winnersCount$: Observable<number> = this.store.select(
+  public winnersCount$: Observable<number | null> = this.store.select(
     selectWinnersFeatureCount
   );
   public currentPage$: Observable<number> = this.store.select(

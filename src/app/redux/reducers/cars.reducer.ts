@@ -21,7 +21,7 @@ import { CarsState, EngineStatus } from '../state.models';
 
 const initialState: CarsState = {
   data: [],
-  carCount: 0,
+  carCount: null,
   error: null,
   isRace: false,
   winnerId: null

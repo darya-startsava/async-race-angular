@@ -25,5 +25,6 @@ export const selectPaginationFeatureWinnersCurrentPage = createSelector(
 
 export const selectPaginationWinnersPageCount = createSelector(
   selectWinnersFeatureCount,
-  (winnersCount: number) => Math.ceil(winnersCount / CARS_PER_PAGE_WINNERS)
+  (winnersCount: number | null) =>
+    Math.ceil(winnersCount / CARS_PER_PAGE_WINNERS)
 );

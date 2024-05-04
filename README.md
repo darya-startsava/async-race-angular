@@ -1,6 +1,6 @@
 ## Demo: https://darya-startsava.github.io/async-race-angular
 
-## Calculated score: 400/405
+## Calculated score: 405/405
 
 **[This server repository](https://github.com/mikhama/async-race-api.git) should be cloned, and the server should be kept running during the functionality review.**
 
@@ -27,7 +27,7 @@
 - [x] **Two Views (10 points):** Implement two primary views: "Garage" and "Winners".
 - [x] **Garage View Content (5 points):** The "Garage" view must display its name, the current page number, and the total number of cars in the database (how many car user has in his garage).
 - [x] **Winners View Content (5 points):** The "Winners" view should similarly display its name, the current page number, and the total count of records in the database (how many records the winners table contains).
-- [ ] **Persistent State (10 points):** Ensure the view state remains consistent when navigating between views. This includes preserving page numbers and input states. For example, page number shouldn't be reset, input controls should contain that they contained before switching, etc.
+- [x] **Persistent State (10 points):** Ensure the view state remains consistent when navigating between views. This includes preserving page numbers and input states. For example, page number shouldn't be reset, input controls should contain that they contained before switching, etc.
 
 ### 2. Garage View Functionality (55 points)
 

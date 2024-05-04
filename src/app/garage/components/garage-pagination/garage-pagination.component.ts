@@ -19,7 +19,7 @@ import {
   styleUrl: './garage-pagination.component.scss'
 })
 export class GaragePaginationComponent {
-  public carCount$: Observable<number> = this.store.select(
+  public carCount$: Observable<number | null> = this.store.select(
     selectCarsFeatureCount
   );
   public currentPage$: Observable<number> = this.store.select(
