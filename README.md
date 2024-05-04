@@ -4,6 +4,13 @@
 
 **[This server repository](https://github.com/mikhama/async-race-api.git) should be cloned, and the server should be kept running during the functionality review.**
 
+## Used Technologies:
+ - **Angular 17**
+ - **NgRx** for state management
+ - **RxJS** for reactive programming
+ - **Angular Material** for UI components
+ - **ESLint** and **Prettier** for code linting and formatting
+
 ## Checklist
 
 ## 🚀 UI Deployment
